@@ -1,0 +1,15 @@
+# SPA fallback para React/Vite en Hostinger (Apache)
+Options -MultiViews
+RewriteEngine On
+RewriteBase /
+
+# Si el recurso existe (archivo o carpeta), lo sirve normalmente
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Excepciones típicas de estáticos (ajustá si hace falta)
+RewriteRule ^(assets|static|img|css|js|fonts)/ - [L]
+
+# Redirigí TODO lo demás a index.html para que lo maneje React Router
+RewriteRule . /index.html [L]

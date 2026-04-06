@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import Catalogo from "./pages/Catalogo";
+import Ayuda from "./pages/Ayuda";
 
-function App() {
+import Contacto from "./pages/Contacto";
+import CatalogoBrook from "./pages/CatalogoBrook";
+import LayoutSinHeader from "./components/LayoutSinHeader";
+import Linktree from "./components/Linktree/Linktree";
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path="/" element={<Catalogo />} />
+        <Route path="/ayuda" element={<Ayuda />} />
+        <Route path="/contacto" element={<Contacto />} />
+        <Route path="/Cuidar tu Pod" element={<Contacto />} />
+        <Route path="/linktree" element={<Linktree />} />
+
+        <Route path="*" element={<Catalogo />} />
+        <Route path="*" element={<Catalogo />} />
+      </Route>
+      <Route element={<LayoutSinHeader />}>
+        <Route path="/CatalogoBrook" element={<CatalogoBrook />} />
+      </Route>
+    </Routes>
   );
 }
-
-export default App;

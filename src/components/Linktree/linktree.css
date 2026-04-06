@@ -1,0 +1,204 @@
+/* ============================
+   CONTENEDOR PRINCIPAL
+   ============================ */
+.lt-container {
+  min-height: 100vh;
+  padding: 40px 20px;
+  text-align: center;
+  color: #f5f5f5;
+  background: linear-gradient(to bottom, #050505, #111, #0a0a0a);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ============================
+   TARJETA PREMIUM
+   ============================ */
+.lt-card {
+  background: rgba(20, 20, 20, 0.55);
+  backdrop-filter: blur(10px);
+  padding: 5px;
+  border-radius: 16px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6),
+              0 0 20px rgba(255, 0, 0, 0.2);
+}
+
+/* ============================
+   LOGO
+   ============================ */
+.lt-logo {
+  width: 150px;
+  height: 150px;
+  border-radius: 100%;
+  overflow: hidden;
+  margin-bottom: 20px;
+  border: 2px solid rgba(255, 0, 0, 0.5);
+  margin: auto;
+}
+
+.lt-logo img {
+  width: 100%;
+}
+
+/* ============================
+   TÍTULOS
+   ============================ */
+h2 {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.lt-section {
+  margin: 35px 0 14px;
+  font-size: 18px;
+  color: #e2e2e2;
+  font-weight: 700;
+
+  border-bottom: 2px solid rgba(255, 0, 0, 0.35);
+  padding-bottom: 5px;
+}
+
+/* ============================
+   BOTONES — GLASS DARK + RED
+   ============================ */
+.lt-btn {
+  width: 92%;
+  max-width: 440px;
+  padding: 15px 22px;
+  margin: 12px 0;
+
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  text-decoration: none;
+
+  background: rgba(22, 22, 22, 0.55);
+  backdrop-filter: blur(6px);
+
+  border-radius: 40px;
+  border: 1.5px solid rgba(255, 0, 0, 0.35);
+
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+
+  color: #fff;
+  font-size: 17px;
+  transition: all 0.25s ease;
+}
+
+/* HOVER — GLOW ROJO + SCALE */
+.lt-btn:hover {
+  background: rgba(255, 0, 0, 0.12);
+  border-color: rgba(255, 0, 0, 0.7);
+  transform: scale(1.04);
+
+  box-shadow: 
+    0 0 12px rgba(255, 0, 0, 0.6),
+    0 4px 22px rgba(0, 0, 0, 0.9);
+}
+
+.lt-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.9;
+}
+/* Glow horizontal leve */
+.glow-wrapper {
+  position: relative;
+}
+
+
+/* Divider rojo suave */
+.lt-divider {
+  width: 70%;
+  height: 2px;
+  background: rgba(255, 0, 0, 0.35);
+  margin: 20px auto 25px;
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+}
+
+/* Subtítulo */
+.lt-subtitle {
+  margin-top: -6px;
+  margin-bottom: 25px;
+  font-size: 15px;
+  opacity: 0.7;
+}
+
+/* Botón flotante WhatsApp opcional */
+.float-wsp {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: #25d366;
+  padding: 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border: 2px solid white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  transition: 0.2s;
+}
+
+.float-wsp:hover {
+  transform: scale(1.07);
+}
+/* MOVIMIENTO SUAVE DE TODA LA COLUMNA */
+.premium-shift {
+  animation: subtleFloat 6s ease-in-out infinite;
+}
+
+@keyframes subtleFloat {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+  100% { transform: translateY(0px); }
+}
+
+/* LOGO PREMIUM */
+.premium-logo {
+  animation: heartbeat 3.2s ease-in-out infinite;
+  box-shadow: 0 0 25px rgba(255, 0, 0, 0.4),
+              0 0 45px rgba(255, 0, 0, 0.2);
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(255,0,0,0.4); }
+  50% { transform: scale(1.03); box-shadow: 0 0 32px rgba(255,0,0,0.55); }
+}
+
+/* TÍTULO PREMIUM */
+.premium-title {
+  letter-spacing: 1.6px;
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.45);
+}
+
+/* DIVIDER PREMIUM */
+.premium-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 0, 0, 0.4), transparent);
+  width: 78%;
+}
+
+/* SECTION PREMIUM */
+.premium-section {
+  margin-top: 18px;
+  text-shadow: 0 0 6px rgba(255, 0, 0, 0.4);
+}
+
+/* BUTTON PREMIUM 3D */
+.lt-btn {
+  transform: translateZ(0);
+  transition: all 0.25s ease-out;
+}
+
+.lt-btn:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 6px 25px rgba(255, 0, 0, 0.28);
+}

@@ -1,0 +1,78 @@
+.landing {
+  color: #fff;
+  background: #0a0a0b;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+}
+
+.hero {
+  padding: 6rem 1rem;
+}
+.hero h1 span {
+  color: #ff0000;
+}
+.btn {
+  display: inline-block;
+  margin: 1rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  background: #ff0000;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+.btn-outline {
+  border: 2px solid #ff0000;
+  background: transparent;
+}
+
+.preview img {
+  width: 200px;
+  border-radius: 16px;
+  margin: 0.5rem;
+}
+
+.benefits {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem 1rem;
+  margin: 2rem 0 0 0;
+  border-radius: 16px;
+  text-align: center;
+}
+.benefits ul li {
+  list-style: none;
+  margin: auto;
+  text-align: center;
+}
+.benefits ul {
+  align-items: center;
+  margin: auto;
+  text-align: start;
+}
+
+@media (max-width: 600px) {
+  .btn {
+    margin-bottom: -7px;
+    width: 18em;
+  }
+  h1 {
+    font-size: 2.3em !important;
+  }
+  .benefits h2 {
+    font-size: 1.1em;
+    margin: auto;
+    margin-bottom: -7px;
+  }
+  .benefit__h {
+    font-size: medium;
+    margin-bottom: -8px;
+  }
+  .benefits__subtitle {
+    font-size: medium;
+    color: rgba(232, 232, 231, 0.793);
+  }
+  .benefit__p {
+    font-size: small;
+    color: rgba(232, 232, 231, 0.793);
+  }
+}

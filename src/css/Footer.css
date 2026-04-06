@@ -1,0 +1,136 @@
+/* ===== Footer simple ===== */
+.site-footer.simple {
+  margin-top: 28px;
+  border-top: 1px solid var(--line);
+ background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0) 60%
+    ),
+    var(--panel) !important;
+  backdrop-filter: blur(6px) !important; 
+}
+
+/* fila principal */
+.simple-footer-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 0;
+}
+
+/* marca + bajada */
+.simple-brand .brand {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  font-size: 18px;
+}
+.simple-brand .sub {
+  margin: 0.25rem 0 0;
+  color: var(--mut);
+  font-size: 13px;
+}
+
+/* links */
+.simple-links {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.footer-link {
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 14px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+.footer-link:hover {
+  border-color: var(--line);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* botón WhatsApp */
+.btn-wa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.16);
+  color: var(--ink);
+  text-decoration: none;
+  border: 1px solid var(--accent);
+}
+.btn-wa:hover {
+  background: rgba(239, 68, 68, 0.22);
+}
+
+/* línea inferior */
+.simple-bottom {
+  height: 6em;
+  border-top: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+}
+.simple-bottom-row {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.simple-bottom-row .hint {
+  color: var(--mut);
+}
+
+/* quitar margen extra del container en el footer (si tu .container lo tenía) */
+.site-footer .container {
+  margin-bottom: 0;
+}
+
+/* responsive */
+@media (max-width: 780px) {
+  .simple-footer-row {
+    text-align: center;
+    gap: 10px;
+  }
+  .simple-links {
+    justify-content: flex-start;
+  }
+  .simple-bottom-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* contenedor de la app en columna */
+.page-wrap {
+  min-height: 100svh; /* 100% de alto visible */
+  display: flex;
+  flex-direction: column;
+}
+
+/* asegurá que el contenido ocupe el espacio disponible */
+main {
+  flex: 1 0 auto; /* el main crece y empuja el footer abajo */
+}
+
+/* tu footer minimal: se va al fondo automático */
+.site-footer.simple {
+  margin-top: auto; /* clave para que no “suba” */
+  border-top: 1px solid var(--line);
+  background: rgba(18, 18, 20, 0.45);
+  backdrop-filter: blur(6px);
+}
+
+/* opcional: eliminá márgenes inferiores del container dentro del footer */
+.site-footer .container {
+  margin-bottom: 0;
+}
