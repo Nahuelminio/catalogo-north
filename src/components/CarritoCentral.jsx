@@ -5,6 +5,15 @@ const WA_CENTRAL = "5493764202408";
 const fmtPesos = (n) =>
   n > 0 ? `$ ${Number(n).toLocaleString("es-AR")}` : null;
 
+const itemVariants = {
+  hidden:  { opacity: 0, x: 20 },
+  visible: (i) => ({
+    opacity: 1, x: 0,
+    transition: { duration: 0.28, ease: "easeOut", delay: i * 0.05 },
+  }),
+  exit: { opacity: 0, x: 20, transition: { duration: 0.18 } },
+};
+
 export default function CarritoCentral({ items, totalItems, totalPesos, onCambiar, onQuitar, onVaciar, onCerrar }) {
   const enviar = () => {
     if (!items.length) return;
@@ -101,13 +110,15 @@ export default function CarritoCentral({ items, totalItems, totalPesos, onCambia
             </div>
           ) : (
             <AnimatePresence initial={false}>
-              {items.map((item) => (
+              {items.map((item, i) => (
                 <motion.div
                   key={item.id}
-                  initial={{ opacity: 0, height: 0, marginBottom: 0 }}
-                  animate={{ opacity: 1, height: "auto", marginBottom: 8 }}
-                  exit={{ opacity: 0, height: 0, marginBottom: 0 }}
-                  transition={{ duration: 0.2 }}
+                  custom={i}
+                  variants={itemVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit={{ opacity: 0, x: 24, height: 0, marginBottom: 0, transition: { duration: 0.2 } }}
+                  layout
                   style={{
                     background: "rgba(255,255,255,0.04)",
                     border: "1px solid rgba(255,255,255,0.08)",
@@ -187,22 +198,36 @@ export default function CarritoCentral({ items, totalItems, totalPesos, onCambia
           flexShrink: 0, display: "flex", flexDirection: "column", gap: 8,
         }}>
           {/* Total */}
-          {totalPesos > 0 && (
-            <div style={{
-              display: "flex", justifyContent: "space-between", alignItems: "center",
-              padding: "10px 14px",
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              borderRadius: 10, marginBottom: 2,
-            }}>
-              <span style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.85rem", fontWeight: 600 }}>
-                Total estimado
-              </span>
-              <span style={{ color: "#eee", fontWeight: 800, fontSize: "1.05rem" }}>
-                {fmtPesos(totalPesos)}
-              </span>
-            </div>
-          )}
+          <AnimatePresence>
+            {totalPesos > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 8 }}
+                transition={{ duration: 0.22 }}
+                style={{
+                  display: "flex", justifyContent: "space-between", alignItems: "center",
+                  padding: "10px 14px",
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: 10, marginBottom: 2,
+                }}
+              >
+                <span style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.85rem", fontWeight: 600 }}>
+                  Total estimado
+                </span>
+                <motion.span
+                  key={totalPesos}
+                  initial={{ scale: 1.15, color: "#fff" }}
+                  animate={{ scale: 1,    color: "#eee" }}
+                  transition={{ duration: 0.25 }}
+                  style={{ fontWeight: 800, fontSize: "1.05rem" }}
+                >
+                  {fmtPesos(totalPesos)}
+                </motion.span>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           <button
             onClick={enviar}

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "../css/Catalogo.css";
+import "../css/CatalogoCentral.css";
 import ModelCardPedido from "../components/ModelCardPedido";
 import SkeletonCard from "../components/SkeletonCard";
 import SearchBar from "../components/SearchBar";
@@ -14,6 +15,23 @@ import { getBrand } from "../utils/brand";
 const SUCURSAL_CENTRAL = 7;
 const SKELETON_COUNT   = 4;
 
+// Variants reutilizables
+const fadeUp = {
+  hidden:  { opacity: 0, y: 16 },
+  visible: (i = 0) => ({
+    opacity: 1, y: 0,
+    transition: { duration: 0.38, ease: [0.25, 0.1, 0.25, 1], delay: i * 0.06 },
+  }),
+};
+
+const fadeIn = {
+  hidden:  { opacity: 0 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    transition: { duration: 0.3, delay: i * 0.06 },
+  }),
+};
+
 export default function CatalogoCentral() {
   useEffect(() => {
     document.title = "The North Shop — Central · Pedidos";
@@ -26,12 +44,9 @@ export default function CatalogoCentral() {
   const [query,          setQuery]          = useState("");
   const [marcaActiva,    setMarcaActiva]    = useState("Todas");
   const [carritoAbierto, setCarritoAbierto] = useState(false);
+  const [toastOpen,      setToastOpen]      = useState(false);
+  const [toastMsg,       setToastMsg]       = useState("");
 
-  // Toast
-  const [toastOpen, setToastOpen] = useState(false);
-  const [toastMsg,  setToastMsg]  = useState("");
-
-  // Aviso pedido guardado — congelar cantidad al entrar para que no cambie si se agregan más items
   const [itemsAlEntrar]  = useState(totalItems);
   const [avisoGuardado, setAvisoGuardado] = useState(() => totalItems > 0);
   useEffect(() => {
@@ -40,7 +55,6 @@ export default function CatalogoCentral() {
     return () => clearTimeout(t);
   }, [avisoGuardado]);
 
-  // Marcas únicas extraídas de los grupos
   const marcas = useMemo(() => {
     const set = new Set(grupos.map((g) => getBrand(g.modelo)));
     return ["Todas", ...Array.from(set).sort()];
@@ -59,80 +73,68 @@ export default function CatalogoCentral() {
 
   const handleAgregar = (modelo, gusto, precio) => {
     agregar(modelo, gusto, precio);
-    setToastMsg(`${gusto} agregado al pedido`);
+    setToastMsg(`${gusto} agregado`);
     setToastOpen(true);
   };
 
   const handleReducir = (modelo, gusto) => {
-    const id = `${modelo}||${gusto}`;
-    cambiar(id, -1);
+    cambiar(`${modelo}||${gusto}`, -1);
   };
 
-  // Set de modelos en el carrito — O(1) lookup, no se recalcula en cada render
   const modelosEnCarrito = useMemo(
     () => new Set(items.map((i) => i.modelo)),
     [items]
   );
-  const grupoEnCarrito = (grupo) => modelosEnCarrito.has(grupo.modelo);
 
   return (
     <main className="catalogo">
       <ProgressBar loading={loading} />
 
       <div className="container">
-        {/* Header */}
-        <div style={{ marginBottom: 24 }}>
-          <motion.p
-            className="page-sub"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            style={{ marginBottom: 4 }}
+
+        {/* ── Hero ───────────────────────────────────── */}
+        <div className="central-hero">
+          <motion.div
+            className="central-eyebrow"
+            variants={fadeIn} initial="hidden" animate="visible" custom={0}
           >
-            Central · Pedidos online
-          </motion.p>
+            <span className="central-eyebrow-dot" />
+            North Shop · Central
+          </motion.div>
+
           <motion.h1
             className="page-title"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
+            variants={fadeUp} initial="hidden" animate="visible" custom={1}
+            style={{ marginBottom: 8 }}
           >
             Armá tu pedido
           </motion.h1>
+
           <motion.p
             className="page-sub"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
+            variants={fadeIn} initial="hidden" animate="visible" custom={2}
           >
-            Agregá los gustos que querés al carrito y envianos el pedido por WhatsApp.
+            Elegí los gustos y envianos el pedido por WhatsApp — confirmamos disponibilidad.
           </motion.p>
         </div>
 
-        {/* Aviso pedido guardado */}
+        {/* ── Aviso pedido guardado ───────────────────── */}
         <AnimatePresence>
           {avisoGuardado && (
             <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              style={{
-                display: "flex", alignItems: "center", justifyContent: "space-between",
-                background: "rgba(239,68,68,0.1)",
-                border: "1px solid rgba(239,68,68,0.3)",
-                borderRadius: 12, padding: "12px 16px", marginBottom: 20,
-                gap: 12,
-              }}
+              className="central-aviso"
+              initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+              animate={{ opacity: 1, height: "auto", marginBottom: 24 }}
+              exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
             >
-              <span style={{ color: "#eee", fontSize: "0.88rem" }}>
-                🛒 Tenés un pedido guardado con <strong>{itemsAlEntrar}</strong> item{itemsAlEntrar !== 1 ? "s" : ""}
+              <span style={{ color: "#ddd", fontSize: "0.88rem" }}>
+                🛒 Tenés un pedido guardado con{" "}
+                <strong>{itemsAlEntrar}</strong> item{itemsAlEntrar !== 1 ? "s" : ""}
               </span>
               <button
+                className="central-aviso-btn"
                 onClick={() => { setCarritoAbierto(true); setAvisoGuardado(false); }}
-                style={{
-                  background: "var(--accent, #ef4444)", border: "none",
-                  color: "#fff", borderRadius: 8, padding: "6px 14px",
-                  fontSize: "0.8rem", fontWeight: 700, cursor: "pointer", flexShrink: 0,
-                }}
               >
                 Ver pedido
               </button>
@@ -140,29 +142,49 @@ export default function CatalogoCentral() {
           )}
         </AnimatePresence>
 
-        {/* Buscador */}
-        <SearchBar value={query} onChange={(v) => { setQuery(v); setMarcaActiva("Todas"); }} />
+        {/* ── Buscador ──────────────────────────────── */}
+        <motion.div
+          variants={fadeUp} initial="hidden" animate="visible" custom={3}
+        >
+          <SearchBar value={query} onChange={(v) => { setQuery(v); setMarcaActiva("Todas"); }} />
+        </motion.div>
 
-        {/* Filtro marcas */}
-        {!loading && marcas.length > 2 && (
-          <nav className="toolbar" style={{ marginBottom: 20 }} aria-label="Filtrar por marca">
-            {marcas.map((marca) => (
-              <button
-                key={marca}
-                className={`chip ${marcaActiva === marca ? "is-active" : ""}`}
-                onClick={() => setMarcaActiva(marca)}
-              >
-                {marca}
-              </button>
-            ))}
-          </nav>
-        )}
+        {/* ── Chips de marca ────────────────────────── */}
+        <AnimatePresence>
+          {!loading && marcas.length > 2 && (
+            <motion.nav
+              className="central-toolbar"
+              aria-label="Filtrar por marca"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, delay: 0.15 }}
+            >
+              {marcas.map((marca, i) => (
+                <motion.button
+                  key={marca}
+                  className={`chip ${marcaActiva === marca ? "is-active" : ""}`}
+                  onClick={() => setMarcaActiva(marca)}
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.22, delay: 0.15 + i * 0.04 }}
+                  whileTap={{ scale: 0.93 }}
+                >
+                  {marca}
+                </motion.button>
+              ))}
+            </motion.nav>
+          )}
+        </AnimatePresence>
 
+        {/* ── Error ─────────────────────────────────── */}
         {errorMsg && (
-          <p style={{ color: "var(--mut)", textAlign: "center", marginTop: 40 }}>{errorMsg}</p>
+          <p style={{ color: "var(--mut)", textAlign: "center", marginTop: 40 }}>
+            {errorMsg}
+          </p>
         )}
 
-        {/* Grilla */}
+        {/* ── Grilla ────────────────────────────────── */}
         <div className="card-grid">
           {loading
             ? Array.from({ length: SKELETON_COUNT }).map((_, i) => <SkeletonCard key={i} />)
@@ -173,57 +195,66 @@ export default function CatalogoCentral() {
                   cantidadDe={cantidadDe}
                   onAgregar={handleAgregar}
                   onReducir={handleReducir}
-                  enCarrito={grupoEnCarrito(grupo)}
+                  enCarrito={modelosEnCarrito.has(grupo.modelo)}
                   index={i}
                 />
               ))}
         </div>
 
-        {!loading && filtered.length === 0 && !errorMsg && (
-          <p style={{ textAlign: "center", color: "var(--mut)", marginTop: 60 }}>
-            Sin resultados para «{query || marcaActiva}».
-          </p>
-        )}
+        {/* ── Sin resultados ────────────────────────── */}
+        <AnimatePresence>
+          {!loading && filtered.length === 0 && !errorMsg && (
+            <motion.div
+              className="central-empty"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+            >
+              <p className="central-empty-icon">🔍</p>
+              <p className="central-empty-text">
+                Sin resultados para «{query || marcaActiva}».
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
       </div>
 
-      {/* FAB carrito */}
+      {/* ── FAB carrito ──────────────────────────────── */}
       <motion.button
+        className="central-fab"
         onClick={() => { setCarritoAbierto(true); setAvisoGuardado(false); }}
-        aria-label={`Ver pedido (${totalItems} items)`}
-        whileHover={{ scale: 1.08 }}
-        whileTap={{ scale: 0.93 }}
-        animate={totalItems > 0 ? { scale: [1, 1.12, 1] } : {}}
-        transition={totalItems > 0 ? { duration: 0.4, delay: 0.2 } : {}}
+        aria-label={`Ver pedido${totalItems > 0 ? ` — ${totalItems} items` : ""}`}
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.6 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
         style={{
-          position: "fixed", bottom: "calc(28px + var(--safe-bottom, 0px))",
-          right: 24, zIndex: 100,
-          width: 58, height: 58, borderRadius: "50%",
           background: totalItems > 0 ? "var(--accent, #ef4444)" : "rgba(255,255,255,0.07)",
           border: "1px solid rgba(255,255,255,0.12)",
-          color: "#fff", fontSize: "1.4rem",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          cursor: "pointer",
           boxShadow: totalItems > 0
-            ? "0 4px 22px rgba(239,68,68,0.45)"
-            : "0 4px 16px rgba(0,0,0,0.3)",
-          transition: "background 0.25s, box-shadow 0.25s",
+            ? "0 4px 28px rgba(239,68,68,0.5)"
+            : "0 4px 16px rgba(0,0,0,0.35)",
+          transition: "background 0.3s, box-shadow 0.3s",
         }}
       >
+        {/* Anillo pulsante */}
+        {totalItems > 0 && <span className="central-fab-ring" />}
+
         🛒
+
+        {/* Badge */}
         <AnimatePresence>
           {totalItems > 0 && (
             <motion.span
               key="badge"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
+              className="central-fab-badge"
+              initial={{ scale: 0, rotate: -15 }}
+              animate={{ scale: 1, rotate: 0 }}
               exit={{ scale: 0 }}
-              style={{
-                position: "absolute", top: -4, right: -4,
-                background: "#fff", color: "var(--accent, #ef4444)",
-                fontSize: "0.68rem", fontWeight: 900,
-                width: 20, height: 20, borderRadius: "50%",
-                display: "flex", alignItems: "center", justifyContent: "center",
-              }}
+              transition={{ type: "spring", stiffness: 400, damping: 18 }}
             >
               {totalItems}
             </motion.span>
@@ -231,7 +262,7 @@ export default function CatalogoCentral() {
         </AnimatePresence>
       </motion.button>
 
-      {/* Carrito drawer */}
+      {/* ── Drawer del carrito ──────────────────────── */}
       <AnimatePresence>
         {carritoAbierto && (
           <CarritoCentral
@@ -246,13 +277,13 @@ export default function CatalogoCentral() {
         )}
       </AnimatePresence>
 
-      {/* Toast */}
+      {/* ── Toast ───────────────────────────────────── */}
       <Toast
         open={toastOpen}
         onClose={() => setToastOpen(false)}
-        message={toastMsg}
+        message={`✓  ${toastMsg}`}
         type="success"
-        ms={2200}
+        ms={2000}
       />
     </main>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import ModelImage from "./ModelImage";
 import { getCanonical, getModelDesc, isAccesorioModelo } from "../utils/model";
 
@@ -27,28 +27,25 @@ function ModelCardPedido({ grupo, cantidadDe, onAgregar, onReducir, enCarrito, i
 
   return (
     <motion.article
-      className={`group-card${cardMods}`}
+      className={`group-card${cardMods}${enCarrito ? " card-en-carrito" : ""}`}
       initial={{ opacity: 0, y: 28 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.38, ease: [0.25, 0.1, 0.25, 1], delay: Math.min(index * 0.07, 0.42) }}
-      style={enCarrito ? {
-        borderColor: "rgba(239,68,68,0.45)",
-        boxShadow: "0 0 0 1px rgba(239,68,68,0.2) inset, 0 0 20px rgba(239,68,68,0.08)",
-      } : undefined}
+      transition={{ duration: 0.38, ease: [0.25, 0.1, 0.25, 1], delay: Math.min(index * 0.06, 0.42) }}
     >
-      {/* Badge "en tu pedido" */}
-      {enCarrito && (
-        <span style={{
-          position: "absolute", top: 10, right: 10,
-          background: "var(--accent, #ef4444)", color: "#fff",
-          fontSize: "10px", fontWeight: 800,
-          borderRadius: 20, padding: "3px 9px",
-          letterSpacing: "0.5px", textTransform: "uppercase",
-          zIndex: 1,
-        }}>
-          En tu pedido
-        </span>
-      )}
+      {/* Badge "En tu pedido" animado */}
+      <AnimatePresence>
+        {enCarrito && (
+          <motion.span
+            className="card-badge-pedido"
+            initial={{ opacity: 0, scale: 0.6, y: -4 }}
+            animate={{ opacity: 1, scale: 1,   y: 0  }}
+            exit={{   opacity: 0, scale: 0.6,   y: -4 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
+          >
+            En tu pedido
+          </motion.span>
+        )}
+      </AnimatePresence>
 
       <ModelImage modelo={modelo} loading="lazy" decoding="async" />
 
@@ -56,7 +53,8 @@ function ModelCardPedido({ grupo, cantidadDe, onAgregar, onReducir, enCarrito, i
         <h2 className="model-title">{modelo}</h2>
         {badgeText && <span className={badgeClass}>{badgeText}</span>}
         <span style={{
-          marginLeft: "auto", fontSize: precio ? "1rem" : "0.78rem",
+          marginLeft: "auto",
+          fontSize: precio ? "1rem" : "0.78rem",
           fontWeight: precio ? 800 : 400,
           color: precio ? "var(--ink)" : "var(--mut)",
           letterSpacing: precio ? "-0.3px" : "0",
@@ -71,19 +69,26 @@ function ModelCardPedido({ grupo, cantidadDe, onAgregar, onReducir, enCarrito, i
       <div className="flavors-block">
         <p className="flavors-title">Gustos disponibles</p>
         <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 6 }}>
-          {gustos.map((g) => {
+          {gustos.map((g, gi) => {
             const qty      = cantidadDe(modelo, g.gusto);
             const stock    = g.stock ?? 0;
             const maxed    = qty >= stock;
             const sinStock = stock === 0;
 
             return (
-              <li key={g.id}>
+              <motion.li
+                key={g.id}
+                initial={{ opacity: 0, x: -6 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.22, delay: Math.min(index * 0.06, 0.42) + gi * 0.03 }}
+              >
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+
+                  {/* Nombre + alerta */}
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <span style={{
                       fontSize: "13px",
-                      color: sinStock ? "rgba(255,255,255,0.25)" : "var(--ink)",
+                      color: sinStock ? "rgba(255,255,255,0.22)" : "var(--ink)",
                       display: "block",
                       overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
                       textDecoration: sinStock ? "line-through" : "none",
@@ -92,14 +97,15 @@ function ModelCardPedido({ grupo, cantidadDe, onAgregar, onReducir, enCarrito, i
                     </span>
                     {!sinStock && stock <= 3 && (
                       <span style={{ fontSize: "10px", color: "rgba(239,68,68,0.8)", fontWeight: 600 }}>
-                        Últimas {stock} unidades
+                        Últimas {stock}
                       </span>
                     )}
                   </div>
 
+                  {/* Control */}
                   {sinStock ? (
                     <span style={{
-                      fontSize: "11px", color: "rgba(255,255,255,0.2)",
+                      fontSize: "11px", color: "rgba(255,255,255,0.18)",
                       border: "1px solid rgba(255,255,255,0.07)",
                       borderRadius: 10, padding: "0 10px", minHeight: 36,
                       display: "inline-flex", alignItems: "center",
@@ -107,66 +113,49 @@ function ModelCardPedido({ grupo, cantidadDe, onAgregar, onReducir, enCarrito, i
                       Sin stock
                     </span>
                   ) : qty === 0 ? (
-                    <button
+                    <motion.button
+                      className="gusto-btn-agregar"
                       onClick={() => onAgregar(modelo, g.gusto, g.precio)}
-                      style={{
-                        cursor: "pointer", border: "1px solid rgba(255,255,255,0.14)",
-                        background: "rgba(255,255,255,0.03)",
-                        color: "var(--ink)", borderRadius: 10,
-                        fontSize: "12px", fontWeight: 600,
-                        padding: "0 12px", minHeight: 36,
-                        display: "inline-flex", alignItems: "center", gap: 5,
-                        flexShrink: 0, transition: "border-color 0.18s, background 0.18s",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.borderColor = "var(--accent)";
-                        e.currentTarget.style.background  = "rgba(239,68,68,0.09)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.borderColor = "rgba(255,255,255,0.14)";
-                        e.currentTarget.style.background  = "rgba(255,255,255,0.03)";
-                      }}
+                      whileTap={{ scale: 0.91 }}
                     >
-                      <span style={{ fontSize: "14px", lineHeight: 1 }}>+</span> Agregar
-                    </button>
+                      <motion.span
+                        style={{ fontSize: "14px", lineHeight: 1 }}
+                        initial={false}
+                        animate={{ rotate: 0 }}
+                      >
+                        +
+                      </motion.span>
+                      Agregar
+                    </motion.button>
                   ) : (
-                    <div style={{
-                      display: "flex", alignItems: "center",
-                      border: "1px solid var(--accent)",
-                      borderRadius: 10, overflow: "hidden",
-                      background: "rgba(239,68,68,0.08)",
-                      flexShrink: 0,
-                    }}>
+                    <motion.div
+                      className="gusto-counter"
+                      initial={{ scale: 0.85, opacity: 0 }}
+                      animate={{ scale: 1,    opacity: 1 }}
+                      transition={{ type: "spring", stiffness: 380, damping: 22 }}
+                    >
                       <button
+                        className="gusto-counter-btn"
                         onClick={() => onReducir(modelo, g.gusto)}
-                        style={{
-                          background: "none", border: "none", color: "var(--ink)",
-                          width: 32, height: 36, fontSize: "1.1rem",
-                          cursor: "pointer", display: "flex",
-                          alignItems: "center", justifyContent: "center",
-                        }}
                       >−</button>
-                      <span style={{
-                        color: "var(--ink)", fontWeight: 800, fontSize: "0.88rem",
-                        minWidth: 22, textAlign: "center",
-                      }}>
+                      <motion.span
+                        className="gusto-counter-val"
+                        key={qty}
+                        initial={{ scale: 1.4, opacity: 0.5 }}
+                        animate={{ scale: 1,   opacity: 1   }}
+                        transition={{ duration: 0.18 }}
+                      >
                         {qty}
-                      </span>
+                      </motion.span>
                       <button
+                        className="gusto-counter-btn"
                         onClick={() => !maxed && onAgregar(modelo, g.gusto, g.precio)}
                         disabled={maxed}
-                        style={{
-                          background: "none", border: "none",
-                          color: maxed ? "rgba(255,255,255,0.2)" : "var(--ink)",
-                          width: 32, height: 36, fontSize: "1.1rem",
-                          cursor: maxed ? "default" : "pointer",
-                          display: "flex", alignItems: "center", justifyContent: "center",
-                        }}
                       >+</button>
-                    </div>
+                    </motion.div>
                   )}
                 </div>
-              </li>
+              </motion.li>
             );
           })}
         </ul>
