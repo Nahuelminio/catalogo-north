@@ -38,7 +38,7 @@ export default function useProductos(sucursalId) {
       const g = map.get(key);
       if (!g.puffs && puffs) g.puffs = puffs;
       if (!g.ml && ml) g.ml = ml;
-      g.gustos.push({ id: p.id, gusto: gusto || "Sin gusto" });
+      g.gustos.push({ id: p.id, gusto: gusto || "Sin gusto", precio: p.precio ?? null, stock: p.stock ?? 0 });
     }
 
     return [...map.values()]
