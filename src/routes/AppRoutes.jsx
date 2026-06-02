@@ -3,13 +3,14 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "../components/Layout";
 import LayoutSinHeader from "../components/LayoutSinHeader";
 
-const Catalogo     = lazy(() => import("../pages/Catalogo"));
-const Ayuda        = lazy(() => import("../pages/Ayuda"));
-const Contacto     = lazy(() => import("../pages/Contacto"));
-const CatalogoBrook = lazy(() => import("../pages/CatalogoBrook"));
-const ModelDetalle = lazy(() => import("../pages/ModelDetalle"));
-const Linktree     = lazy(() => import("../components/Linktree/Linktree"));
-const NotFound     = lazy(() => import("../pages/NotFound"));
+const Catalogo        = lazy(() => import("../pages/Catalogo"));
+const CatalogoCentral = lazy(() => import("../pages/CatalogoCentral"));
+const Ayuda           = lazy(() => import("../pages/Ayuda"));
+const Contacto        = lazy(() => import("../pages/Contacto"));
+const CatalogoBrook   = lazy(() => import("../pages/CatalogoBrook"));
+const ModelDetalle    = lazy(() => import("../pages/ModelDetalle"));
+const Linktree        = lazy(() => import("../components/Linktree/Linktree"));
+const NotFound        = lazy(() => import("../pages/NotFound"));
 
 export default function AppRoutes() {
   return (
@@ -25,6 +26,7 @@ export default function AppRoutes() {
 
         <Route element={<LayoutSinHeader />}>
           <Route path="/CatalogoBrook" element={<CatalogoBrook />} />
+          <Route path="/central"       element={<CatalogoCentral />} />
           <Route path="/linktree"      element={<Linktree />} />
         </Route>
       </Routes>
