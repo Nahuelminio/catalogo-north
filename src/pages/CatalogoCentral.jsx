@@ -9,18 +9,10 @@ import CarritoCentral from "../components/CarritoCentral";
 import Toast from "../components/Toast";
 import useProductos from "../hooks/useProductos";
 import useCarritoCentral from "../hooks/useCarritoCentral";
+import { getBrand } from "../utils/brand";
 
 const SUCURSAL_CENTRAL = 7;
 const SKELETON_COUNT   = 4;
-
-/** Extrae la marca del nombre del modelo */
-function extractBrand(modelo = "") {
-  const MULTI = ["Lost Mary", "Elf Bar"];
-  for (const b of MULTI) {
-    if (modelo.toLowerCase().startsWith(b.toLowerCase())) return b;
-  }
-  return modelo.split(/\s+/)[0] || modelo;
-}
 
 export default function CatalogoCentral() {
   useEffect(() => {
@@ -39,7 +31,8 @@ export default function CatalogoCentral() {
   const [toastOpen, setToastOpen] = useState(false);
   const [toastMsg,  setToastMsg]  = useState("");
 
-  // Aviso pedido guardado — mostrar una sola vez al entrar si hay items
+  // Aviso pedido guardado — congelar cantidad al entrar para que no cambie si se agregan más items
+  const [itemsAlEntrar]  = useState(totalItems);
   const [avisoGuardado, setAvisoGuardado] = useState(() => totalItems > 0);
   useEffect(() => {
     if (!avisoGuardado) return;
@@ -49,14 +42,14 @@ export default function CatalogoCentral() {
 
   // Marcas únicas extraídas de los grupos
   const marcas = useMemo(() => {
-    const set = new Set(grupos.map((g) => extractBrand(g.modelo)));
+    const set = new Set(grupos.map((g) => getBrand(g.modelo)));
     return ["Todas", ...Array.from(set).sort()];
   }, [grupos]);
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase().trim();
     return grupos.filter((g) => {
-      const okMarca = marcaActiva === "Todas" || extractBrand(g.modelo) === marcaActiva;
+      const okMarca = marcaActiva === "Todas" || getBrand(g.modelo) === marcaActiva;
       const okQuery = !q ||
         g.modelo.toLowerCase().includes(q) ||
         g.gustos?.some((gust) => gust.gusto.toLowerCase().includes(q));
@@ -75,9 +68,12 @@ export default function CatalogoCentral() {
     cambiar(id, -1);
   };
 
-  // Chequear si un grupo tiene items en el carrito
-  const grupoEnCarrito = (grupo) =>
-    grupo.gustos.some((g) => cantidadDe(grupo.modelo, g.gusto) > 0);
+  // Set de modelos en el carrito — O(1) lookup, no se recalcula en cada render
+  const modelosEnCarrito = useMemo(
+    () => new Set(items.map((i) => i.modelo)),
+    [items]
+  );
+  const grupoEnCarrito = (grupo) => modelosEnCarrito.has(grupo.modelo);
 
   return (
     <main className="catalogo">
@@ -128,7 +124,7 @@ export default function CatalogoCentral() {
               }}
             >
               <span style={{ color: "#eee", fontSize: "0.88rem" }}>
-                🛒 Tenés un pedido guardado con <strong>{totalItems}</strong> item{totalItems !== 1 ? "s" : ""}
+                🛒 Tenés un pedido guardado con <strong>{itemsAlEntrar}</strong> item{itemsAlEntrar !== 1 ? "s" : ""}
               </span>
               <button
                 onClick={() => { setCarritoAbierto(true); setAvisoGuardado(false); }}

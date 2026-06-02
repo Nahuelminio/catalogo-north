@@ -35,9 +35,11 @@ export default function CarritoCentral({ items, totalItems, totalPesos, onCambia
         exit={{ x: "100%" }}
         transition={{ type: "spring", stiffness: 340, damping: 34 }}
         drag="x"
-        dragConstraints={{ left: 0, right: 0 }}
-        dragElastic={{ left: 0, right: 0.4 }}
-        onDragEnd={(_, info) => { if (info.offset.x > 80) onCerrar(); }}
+        dragConstraints={{ left: 0, right: 300 }}
+        dragElastic={{ left: 0, right: 0.2 }}
+        onDragEnd={(_, info) => {
+          if (info.offset.x > 80 || info.velocity.x > 400) onCerrar();
+        }}
         style={{
           position: "fixed", top: 0, right: 0,
           width: "min(400px, 100vw)", height: "100dvh",
@@ -120,7 +122,7 @@ export default function CarritoCentral({ items, totalItems, totalPesos, onCambia
                       <p style={{ margin: "2px 0 0", fontSize: "0.8rem", color: "rgba(255,255,255,0.4)" }}>
                         {item.gusto}
                       </p>
-                      {item.precio > 0 && (
+                      {item.precio != null && item.precio > 0 && (
                         <p style={{ margin: "4px 0 0", fontSize: "0.8rem", color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>
                           {fmtPesos(item.precio * item.qty)}
                           {item.qty > 1 && (

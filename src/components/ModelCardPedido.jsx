@@ -55,14 +55,15 @@ function ModelCardPedido({ grupo, cantidadDe, onAgregar, onReducir, enCarrito, i
       <header className="model-head">
         <h2 className="model-title">{modelo}</h2>
         {badgeText && <span className={badgeClass}>{badgeText}</span>}
-        {precio && (
-          <span style={{
-            marginLeft: "auto", fontSize: "1rem",
-            fontWeight: 800, color: "var(--ink)", letterSpacing: "-0.3px",
-          }}>
-            $ {Number(precio).toLocaleString("es-AR")}
-          </span>
-        )}
+        <span style={{
+          marginLeft: "auto", fontSize: precio ? "1rem" : "0.78rem",
+          fontWeight: precio ? 800 : 400,
+          color: precio ? "var(--ink)" : "var(--mut)",
+          letterSpacing: precio ? "-0.3px" : "0",
+          flexShrink: 0,
+        }}>
+          {precio ? `$ ${Number(precio).toLocaleString("es-AR")}` : "Consultar precio"}
+        </span>
       </header>
 
       {desc && <div className="model-desc"><p>{desc}</p></div>}
