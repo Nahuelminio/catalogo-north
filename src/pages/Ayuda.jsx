@@ -1,4 +1,11 @@
+import React, { useEffect } from "react";
+
 export default function Ayuda() {
+  useEffect(() => {
+    document.title = "Consejos y cuidados — The North Shop";
+    return () => { document.title = "The North Shop — Catálogo de pods"; };
+  }, []);
+
   return (
     <main className="help">
       <div className="container">

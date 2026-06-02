@@ -1,45 +1,33 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import "../css/Header.css";
 
 export default function Header() {
   return (
-    <header
-      className="site-header"
-      style={{
-        padding: "12px 0",
-      }}
-    >
-      <div
-        className="container nav-row"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Link
-          to="/"
-          className="brand"
-          style={{
-            fontWeight: 800,
-            textDecoration: "none",
-            color: "inherit",
-          }}
-        >
-          <img className="img-2" src="/logo.png" alt="" />
-          <img className="img-3" src="/logo2.png" alt="" />
-        </Link>
-        <nav className="nav" style={{ display: "flex", gap: 12 }}>
-          <Link
-            className="a-header"
-            to="/catalogo"
-            style={{ color: "inherit" }}
+    <header className="site-header">
+      <div className="header-inner">
+        <NavLink to="/" className="brand">
+          <img className="logo-full" src="/logo.png" alt="The North Shop" />
+          <img className="logo-icon" src="/logo2.png" alt="The North Shop" />
+        </NavLink>
+
+        <nav className="header-nav" aria-label="Navegación principal">
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) =>
+              "header-link" + (isActive ? " header-link--active" : "")
+            }
           >
             Catálogo
-          </Link>
-          <Link className="a-header" to="/ayuda" style={{ color: "inherit" }}>
+          </NavLink>
+          <NavLink
+            to="/ayuda"
+            className={({ isActive }) =>
+              "header-link" + (isActive ? " header-link--active" : "")
+            }
+          >
             Consejos y cuidados
-          </Link>
-         
+          </NavLink>
         </nav>
       </div>
     </header>

@@ -38,11 +38,16 @@ export default function Linktree() {
 
     { icon: Store, label: "North Shop", url: "https://wa.link/16jfjm" },
     { icon: Store, label: "North Santa Ana", url: "https://wa.link/4svy66" },
-    { icon: Store, label: "North Brickell", url: "https://walink.co/cca18a" },
+    { icon: Store, label: "North Brickell", url: "https://wa.me/5493764298148" },
     {
       icon: Store,
       label: "North Villa Cabello",
       url: "https://wa.link/x2vdvq",
+    },
+    {
+      icon: Store,
+      label: "North Garupa",
+      url: "https://wa.me/5493764357807",
     },
   ];
 

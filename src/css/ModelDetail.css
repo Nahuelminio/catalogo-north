@@ -1,0 +1,235 @@
+/* ====== Página de detalle — mobile first ====== */
+
+/* Topbar: volver + compartir */
+.detail-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+/* ── Hero card ── */
+.detail-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0) 60%), var(--panel);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 20px 16px;
+  margin-bottom: 20px;
+}
+
+/* ── Imagen ── */
+.detail-image-wrap {
+  position: relative;
+  width: min(280px, 72vw);
+  aspect-ratio: 1 / 1;
+  align-self: center;
+  margin: 0 auto 20px;
+}
+
+/* Glow rojo detrás del producto */
+.detail-image-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 5%;
+  background: radial-gradient(circle, rgba(239,68,68,0.18) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(16px);
+}
+
+.detail-img-box {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border-radius: calc(var(--radius) + 4px);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: linear-gradient(160deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+}
+
+.detail-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: scale(1.2);
+  transform-origin: center;
+  transition: transform 0.4s ease;
+}
+.detail-img-box:hover img {
+  transform: scale(1.28);
+}
+
+/* ── Info ── */
+.detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.detail-model-name {
+  font-size: clamp(20px, 5.5vw, 30px);
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.3px;
+  line-height: 1.15;
+}
+
+.detail-spec-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.detail-spec-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+.detail-sucursal-pill {
+  font-size: 13px;
+  color: var(--mut);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+.detail-desc {
+  margin: 0;
+  color: #ccc;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.detail-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ── Sección gustos ── */
+.detail-flavors-section {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 16px;
+}
+
+.detail-flavors-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--mut);
+}
+.detail-flavors-header::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--line), transparent);
+}
+
+.detail-flavor-count {
+  font-size: 11px;
+  color: var(--accent);
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 999px;
+  padding: 1px 7px;
+}
+
+/* Flavor links — estilo WhatsApp */
+.detail-flavor-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  background: rgba(37, 211, 102, 0.05);
+  border: 1px solid rgba(37, 211, 102, 0.2);
+  border-radius: 10px;
+  transition: border-color 0.2s, background 0.2s, transform 0.06s;
+  -webkit-tap-highlight-color: transparent;
+}
+.detail-flavor-link:hover {
+  border-color: rgba(37, 211, 102, 0.55);
+  background: rgba(37, 211, 102, 0.1);
+}
+.detail-flavor-link:active { transform: scale(0.97); }
+
+.detail-wa-icon {
+  width: 14px;
+  height: 14px;
+  fill: #25d366;
+  flex-shrink: 0;
+}
+
+/* Neutralizar el wrapper interno de ModelImage dentro del detalle */
+.detail-img-box .model-media {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: unset;
+  border-radius: 0;
+  background: none;
+  border: none;
+  justify-self: unset;
+}
+.detail-img-box .model-media img {
+  transform: scale(1.15);
+}
+
+/* ── Desktop (640px+) ── */
+@media (min-width: 640px) {
+  .detail-card {
+    display: grid;
+    grid-template-columns: clamp(200px, 28vw, 280px) 1fr;
+    gap: 28px;
+    align-items: start;
+    padding: 24px;
+  }
+
+  .detail-image-wrap {
+    width: 100%;
+    margin: 0;
+    align-self: start;
+  }
+
+  .detail-info {
+    padding-top: 4px;
+  }
+
+  .detail-model-name {
+    font-size: clamp(22px, 3vw, 32px);
+  }
+}
+
+@media (min-width: 900px) {
+  .detail-card {
+    grid-template-columns: clamp(240px, 26vw, 300px) 1fr;
+    gap: 36px;
+  }
+}

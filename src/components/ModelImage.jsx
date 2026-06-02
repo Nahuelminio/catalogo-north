@@ -3,7 +3,7 @@ import "../css/ModelImage.css";
 
 /* Mapeo manual (si algún modelo no coincide con el slug) */
 const MODEL_IMAGES = {
-  // "Elfbar V150 PRO": "/img/modelos/elfbar-v150-pro.webp",
+  "EBCREATE BC PRO - 40.000 puffs": "/img/modelos/ebcreate-bc-pro.png",
 };
 
 function slugifyModel(name = "") {

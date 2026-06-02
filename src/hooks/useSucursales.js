@@ -1,24 +1,21 @@
-// src/hooks/useSucursales.js
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../api/client";
+import { SUCURSAL_WA_LINKS } from "../config";
 
 export default function useSucursales() {
   const [sucursales, setSucursales] = useState([]);
-  const [sucursalId, setSucursalId] = useState(
+  const [sucursalId, setSucursalIdState] = useState(
     localStorage.getItem("sucursalId") || ""
   );
   const [error, setError] = useState("");
 
   useEffect(() => {
-  api
-    .get("/public/sucursales")
-    .then((r) => {
-      console.log("Sucursales recibidas:", r.data); // 👈 agregá esto
-      const list = Array.isArray(r.data) ? r.data : [];
-      setSucursales(list);
+    api
+      .get("/public/sucursales")
+      .then((r) => {
+        const list = Array.isArray(r.data) ? r.data : [];
+        setSucursales(list);
 
-
-        // restaurar selección previa si todavía existe
         const saved = localStorage.getItem("sucursalId");
         const hasSaved = list.some((x) => String(x.id) === String(saved));
         const initialId = hasSaved
@@ -26,26 +23,37 @@ export default function useSucursales() {
           : list[0]
           ? String(list[0].id)
           : "";
+
         if (initialId && initialId !== sucursalId) {
-          setSucursalId(initialId);
+          setSucursalIdState(initialId);
           localStorage.setItem("sucursalId", initialId);
         }
         if (!list.length) setError("No hay sucursales disponibles.");
       })
-      .catch(() => setError("No se pudieron cargar las sucursales."));
-  }, []); // solo 1 vez al montar
+      .catch((err) =>
+        setError(err.message || "No se pudieron cargar las sucursales.")
+      );
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // 🟢 Ahora prioriza el alias (apodo) si existe
   const sucursalName = useMemo(() => {
     const s = sucursales.find((x) => String(x.id) === String(sucursalId));
     if (!s) return "";
     return s.apodo || s.nombre || s.nombre_real || "";
   }, [sucursales, sucursalId]);
 
+  const sucursalPhone = useMemo(() => {
+    const s = sucursales.find((x) => String(x.id) === String(sucursalId));
+    // Solo usamos el teléfono si la sucursal no tiene un link directo en el mapa
+    const hasLink = Boolean(SUCURSAL_WA_LINKS[String(sucursalId)]);
+    if (hasLink) return ""; // buildWaUrl usará el link del mapa
+    if (s?.telefono) return String(s.telefono).replace(/[^\d]/g, "");
+    return "";
+  }, [sucursales, sucursalId]);
+
   const select = (id) => {
-    setSucursalId(String(id));
+    setSucursalIdState(String(id));
     localStorage.setItem("sucursalId", String(id));
   };
 
-  return { sucursales, sucursalId, setSucursalId: select, sucursalName, error };
+  return { sucursales, sucursalId, setSucursalId: select, sucursalName, sucursalPhone, error };
 }

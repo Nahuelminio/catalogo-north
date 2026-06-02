@@ -1,7 +1,7 @@
 import React from "react";
-import { buildWaUrl } from "../api/client";
+import PropTypes from "prop-types";
 import ModelImageBrook from "./ModelImageBrook";
-import { getCanonical, isAccesorioModelo } from "../utils/model";
+import { isAccesorioModelo } from "../utils/model";
 import "../css/MenuBrook.css";
 
 // 🏷️ Mapa de precios por modelo (slug)
@@ -14,6 +14,20 @@ const PRECIOS_MODELOS = {
   "ignite-v150-pro": "21.000",
   "ignite-v250": "23.000",
   // agregar más si querés
+};
+
+ModelBrook.propTypes = {
+  grupo: PropTypes.shape({
+    modelo: PropTypes.string.isRequired,
+    puffs: PropTypes.number,
+    ml: PropTypes.number,
+    gustos: PropTypes.arrayOf(
+      PropTypes.shape({ id: PropTypes.any, gusto: PropTypes.string })
+    ),
+  }).isRequired,
+  sucursalName: PropTypes.string,
+  sucursalId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  index: PropTypes.number,
 };
 
 export default function ModelBrook({ grupo, sucursalName, sucursalId, index }) {
@@ -52,13 +66,6 @@ export default function ModelBrook({ grupo, sucursalName, sucursalId, index }) {
           {gustos?.length > 0 && (
             <div className="model-menu-gustos">
               {gustos.map((g) => {
-                const href = buildWaUrl({
-                  modelo,
-                  gusto: g.gusto,
-                  puffs,
-                  sucursal: sucursalName,
-                });
-
                 return (
                   <p key={g.id}>
                     {g.gusto} –{" "}

@@ -1,8 +1,7 @@
-import axios from "../utils/axiosInstance";
+import { api } from "../api/client";
 
-// GET productos
 export async function fetchProductos() {
-  const { data } = await axios.get("/api/productos");
+  const { data } = await api.get("/api/productos");
   if (Array.isArray(data)) return data;
   if (Array.isArray(data?.rows)) return data.rows;
   return [];

@@ -1,140 +1,149 @@
 /* ============================
-   CONTENEDOR PRINCIPAL
+   CONTENEDOR — mobile first
    ============================ */
 .lt-container {
-  min-height: 100vh;
-  padding: 40px 20px;
+  min-height: 100svh;
+  padding: 32px 16px 48px;
   text-align: center;
   color: #f5f5f5;
   background: linear-gradient(to bottom, #050505, #111, #0a0a0a);
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-/* ============================
-   TARJETA PREMIUM
-   ============================ */
-.lt-card {
-  background: rgba(20, 20, 20, 0.55);
-  backdrop-filter: blur(10px);
-  padding: 5px;
-  border-radius: 16px;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6),
-              0 0 20px rgba(255, 0, 0, 0.2);
+  /* respeta notch / home bar */
+  padding-top: max(32px, env(safe-area-inset-top));
+  padding-bottom: max(48px, env(safe-area-inset-bottom));
 }
 
 /* ============================
    LOGO
    ============================ */
 .lt-logo {
-  width: 150px;
-  height: 150px;
-  border-radius: 100%;
+  width: clamp(110px, 30vw, 150px);
+  height: clamp(110px, 30vw, 150px);
+  border-radius: 50%;
   overflow: hidden;
-  margin-bottom: 20px;
+  margin: 0 auto 16px;
   border: 2px solid rgba(255, 0, 0, 0.5);
-  margin: auto;
+  background: rgba(20, 20, 20, 0.55);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.6), 0 0 20px rgba(255,0,0,0.2);
+  padding: 5px;
+  animation: heartbeat 3.2s ease-in-out infinite;
 }
+.lt-logo img { width: 100%; display: block; }
 
-.lt-logo img {
-  width: 100%;
+@keyframes heartbeat {
+  0%, 100% { box-shadow: 0 0 22px rgba(255,0,0,0.35); }
+  50%       { box-shadow: 0 0 32px rgba(255,0,0,0.55); transform: scale(1.03); }
 }
 
 /* ============================
    TÍTULOS
    ============================ */
-h2 {
-  font-size: 22px;
+.premium-title {
+  font-size: clamp(16px, 5vw, 22px);
   font-weight: 800;
-  margin-bottom: 8px;
+  margin: 12px 0 6px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.6px;
+  text-shadow: 0 0 8px rgba(255,0,0,0.4);
+}
+
+.lt-subtitle {
+  margin: 0 0 20px;
+  font-size: clamp(13px, 3.5vw, 15px);
+  opacity: 0.65;
+  line-height: 1.4;
 }
 
 .lt-section {
-  margin: 35px 0 14px;
-  font-size: 18px;
+  margin: 24px 0 12px;
+  font-size: clamp(14px, 4vw, 18px);
   color: #e2e2e2;
   font-weight: 700;
-
-  border-bottom: 2px solid rgba(255, 0, 0, 0.35);
+  border-bottom: 1px solid rgba(255,0,0,0.3);
   padding-bottom: 5px;
+  width: 100%;
+  max-width: 440px;
+  text-shadow: 0 0 6px rgba(255,0,0,0.3);
 }
 
 /* ============================
-   BOTONES — GLASS DARK + RED
+   DIVIDER
    ============================ */
-.lt-btn {
-  width: 92%;
-  max-width: 440px;
-  padding: 15px 22px;
-  margin: 12px 0;
-
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  text-decoration: none;
-
-  background: rgba(22, 22, 22, 0.55);
-  backdrop-filter: blur(6px);
-
-  border-radius: 40px;
-  border: 1.5px solid rgba(255, 0, 0, 0.35);
-
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
-
-  color: #fff;
-  font-size: 17px;
-  transition: all 0.25s ease;
+.lt-divider {
+  width: 75%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255,0,0,0.4), transparent);
+  margin: 16px auto 20px;
+  border-radius: 4px;
 }
 
-/* HOVER — GLOW ROJO + SCALE */
-.lt-btn:hover {
-  background: rgba(255, 0, 0, 0.12);
-  border-color: rgba(255, 0, 0, 0.7);
-  transform: scale(1.04);
+/* ============================
+   BOTONES — mobile first
+   ============================ */
+.lt-btn {
+  width: min(94%, 440px);
+  /* mínimo 52px → toque cómodo en mobile */
+  min-height: 52px;
+  padding: 0 20px;
+  margin: 8px 0;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  text-decoration: none;
+  background: rgba(22,22,22,0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 40px;
+  border: 1.5px solid rgba(255,0,0,0.3);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: clamp(14px, 4vw, 17px);
+  font-weight: 500;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  /* evita que el texto sea demasiado pequeño en el render */
+  -webkit-text-size-adjust: none;
+}
 
-  box-shadow: 
-    0 0 12px rgba(255, 0, 0, 0.6),
-    0 4px 22px rgba(0, 0, 0, 0.9);
+.lt-btn:hover {
+  background: rgba(255,0,0,0.1);
+  border-color: rgba(255,0,0,0.65);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 6px 22px rgba(255,0,0,0.25), 0 4px 20px rgba(0,0,0,0.8);
+}
+.lt-btn:active {
+  transform: scale(0.97);
 }
 
 .lt-icon {
   display: flex;
-  justify-content: center;
   align-items: center;
-  opacity: 0.9;
-}
-/* Glow horizontal leve */
-.glow-wrapper {
-  position: relative;
+  justify-content: center;
+  opacity: 0.85;
+  flex-shrink: 0;
 }
 
-
-/* Divider rojo suave */
-.lt-divider {
-  width: 70%;
-  height: 2px;
-  background: rgba(255, 0, 0, 0.35);
-  margin: 20px auto 25px;
-  border-radius: 4px;
-  backdrop-filter: blur(4px);
+/* ============================
+   Animación contenedor
+   ============================ */
+.premium-shift {
+  animation: subtleFloat 6s ease-in-out infinite;
+}
+@keyframes subtleFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
 }
 
-/* Subtítulo */
-.lt-subtitle {
-  margin-top: -6px;
-  margin-bottom: 25px;
-  font-size: 15px;
-  opacity: 0.7;
-}
-
-/* Botón flotante WhatsApp opcional */
+/* ============================
+   WhatsApp flotante (opcional)
+   ============================ */
 .float-wsp {
   position: fixed;
-  bottom: 28px;
-  right: 28px;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  right: 20px;
   background: #25d366;
   padding: 14px;
   border-radius: 50%;
@@ -144,61 +153,7 @@ h2 {
   color: white;
   border: 2px solid white;
   box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  transition: 0.2s;
+  transition: transform 0.2s;
+  -webkit-tap-highlight-color: transparent;
 }
-
-.float-wsp:hover {
-  transform: scale(1.07);
-}
-/* MOVIMIENTO SUAVE DE TODA LA COLUMNA */
-.premium-shift {
-  animation: subtleFloat 6s ease-in-out infinite;
-}
-
-@keyframes subtleFloat {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-4px); }
-  100% { transform: translateY(0px); }
-}
-
-/* LOGO PREMIUM */
-.premium-logo {
-  animation: heartbeat 3.2s ease-in-out infinite;
-  box-shadow: 0 0 25px rgba(255, 0, 0, 0.4),
-              0 0 45px rgba(255, 0, 0, 0.2);
-}
-
-@keyframes heartbeat {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(255,0,0,0.4); }
-  50% { transform: scale(1.03); box-shadow: 0 0 32px rgba(255,0,0,0.55); }
-}
-
-/* TÍTULO PREMIUM */
-.premium-title {
-  letter-spacing: 1.6px;
-  text-shadow: 0 0 8px rgba(255, 0, 0, 0.45);
-}
-
-/* DIVIDER PREMIUM */
-.premium-divider {
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(255, 0, 0, 0.4), transparent);
-  width: 78%;
-}
-
-/* SECTION PREMIUM */
-.premium-section {
-  margin-top: 18px;
-  text-shadow: 0 0 6px rgba(255, 0, 0, 0.4);
-}
-
-/* BUTTON PREMIUM 3D */
-.lt-btn {
-  transform: translateZ(0);
-  transition: all 0.25s ease-out;
-}
-
-.lt-btn:hover {
-  transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 6px 25px rgba(255, 0, 0, 0.28);
-}
+.float-wsp:hover { transform: scale(1.07); }

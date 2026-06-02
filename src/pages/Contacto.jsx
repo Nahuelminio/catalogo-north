@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Toast from "../components/Toast";
+import { api } from "../api/client";
+import { API_BASE } from "../config";
 
-/* .env
-REACT_APP_API_URL=...
-REACT_APP_N8N_LEADS_WEBHOOK=... // opcional
-*/
-const API_BASE = process.env.REACT_APP_API_URL.replace(/\/+$/, "");
 const N8N_WEBHOOK = process.env.REACT_APP_N8N_LEADS_WEBHOOK || "";
 
 export default function Contacto() {
@@ -27,6 +24,11 @@ export default function Contacto() {
     acepta: false,
   });
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    document.title = "North Community — The North Shop";
+    return () => { document.title = "The North Shop — Catálogo de pods"; };
+  }, []);
 
   useEffect(() => {
     fetch(`${API_BASE}/public/sucursales`)
@@ -59,17 +61,13 @@ export default function Contacto() {
     setLoading(true);
     try {
       // 1) guardar en tu backend
-      await fetch(`${API_BASE}/public/clientes`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nombre: form.nombre.trim(),
-          telefono: form.telefono.trim(),
-          sucursal: form.sucursal || "",
-          nota: form.nota?.trim() || "",
-          acepta: form.acepta ? 1 : 0,
-          source: "web",
-        }),
+      await api.post("/public/clientes", {
+        nombre: form.nombre.trim(),
+        telefono: form.telefono.trim(),
+        sucursal: form.sucursal || "",
+        nota: form.nota?.trim() || "",
+        acepta: form.acepta ? 1 : 0,
+        source: "web",
       });
 
       // 2) opcional → n8n

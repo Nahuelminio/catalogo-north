@@ -26,16 +26,25 @@
   animation: fadeIn 0.4s ease-out;
 }
 
-/* Botón cerrar */
+/* Botón cerrar — mínimo 44px de área tocable */
 .fp-close {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  background: none;
-  border: none;
+  top: 8px;
+  right: 8px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
   color: #fff;
   cursor: pointer;
+  transition: background 0.2s;
+  -webkit-tap-highlight-color: transparent;
 }
+.fp-close:hover { background: rgba(255,255,255,0.12); }
 
 /* Título */
 .fp-title {

@@ -1,4 +1,3 @@
-// src/hooks/useProductos.js
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../api/client";
 import { extractMl, extractPuffs, splitModeloGusto } from "../utils/model";
@@ -13,12 +12,15 @@ export default function useProductos(sucursalId) {
     setErrorMsg("");
     setProductos([]);
     setLoading(true);
+
     api
       .get("/public/productos", {
         params: { sucursal_id: sucursalId, inStock: 1 },
       })
       .then((r) => setProductos(Array.isArray(r.data) ? r.data : []))
-      .catch(() => setErrorMsg("No se pudo cargar el catálogo."))
+      .catch((err) =>
+        setErrorMsg(err.message || "No se pudo cargar el catálogo.")
+      )
       .finally(() => setLoading(false));
   }, [sucursalId]);
 
@@ -31,12 +33,7 @@ export default function useProductos(sucursalId) {
       const ml = extractMl(p.nombre);
 
       if (!map.has(key))
-        map.set(key, {
-          modelo,
-          puffs: puffs || null,
-          ml: ml || null,
-          gustos: [],
-        });
+        map.set(key, { modelo, puffs: puffs || null, ml: ml || null, gustos: [] });
 
       const g = map.get(key);
       if (!g.puffs && puffs) g.puffs = puffs;
