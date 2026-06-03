@@ -115,7 +115,7 @@ function ModelCardPedido({ grupo, cantidadDe, onAgregar, onReducir, enCarrito, i
                   ) : qty === 0 ? (
                     <motion.button
                       className="gusto-btn-agregar"
-                      onClick={() => onAgregar(modelo, g.gusto, g.precio)}
+                      onClick={() => onAgregar(modelo, g.gusto, g.precio, g.id)}
                       whileTap={{ scale: 0.91 }}
                     >
                       <motion.span
@@ -149,7 +149,7 @@ function ModelCardPedido({ grupo, cantidadDe, onAgregar, onReducir, enCarrito, i
                       </motion.span>
                       <button
                         className="gusto-counter-btn"
-                        onClick={() => !maxed && onAgregar(modelo, g.gusto, g.precio)}
+                        onClick={() => !maxed && onAgregar(modelo, g.gusto, g.precio, g.id)}
                         disabled={maxed}
                       >+</button>
                     </motion.div>

@@ -18,12 +18,12 @@ export default function useCarritoCentral() {
 
   const itemId = (modelo, gusto) => `${modelo}||${gusto}`;
 
-  const agregar = (modelo, gusto, precio = null) => {
+  const agregar = (modelo, gusto, precio = null, gusto_id = null) => {
     setItems((prev) => {
       const id = itemId(modelo, gusto);
       const existe = prev.find((i) => i.id === id);
       if (existe) return prev.map((i) => i.id === id ? { ...i, qty: i.qty + 1 } : i);
-      return [...prev, { id, modelo, gusto, precio, qty: 1 }];
+      return [...prev, { id, modelo, gusto, precio, gusto_id, qty: 1 }];
     });
   };
 

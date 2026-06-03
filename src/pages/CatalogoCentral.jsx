@@ -71,8 +71,8 @@ export default function CatalogoCentral() {
     });
   }, [grupos, query, marcaActiva]);
 
-  const handleAgregar = (modelo, gusto, precio) => {
-    agregar(modelo, gusto, precio);
+  const handleAgregar = (modelo, gusto, precio, gusto_id) => {
+    agregar(modelo, gusto, precio, gusto_id);
     setToastMsg(`${gusto} agregado`);
     setToastOpen(true);
   };
