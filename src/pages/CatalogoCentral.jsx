@@ -43,6 +43,7 @@ export default function CatalogoCentral() {
 
   const [query,          setQuery]          = useState("");
   const [marcaActiva,    setMarcaActiva]    = useState("Todas");
+  const [orden,          setOrden]          = useState("nombre"); // nombre | precio_asc | precio_desc | stock
   const [carritoAbierto, setCarritoAbierto] = useState(false);
   const [toastOpen,      setToastOpen]      = useState(false);
   const [toastMsg,       setToastMsg]       = useState("");
@@ -62,14 +63,33 @@ export default function CatalogoCentral() {
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase().trim();
-    return grupos.filter((g) => {
+    const base = grupos.filter((g) => {
       const okMarca = marcaActiva === "Todas" || getBrand(g.modelo) === marcaActiva;
       const okQuery = !q ||
         g.modelo.toLowerCase().includes(q) ||
         g.gustos?.some((gust) => gust.gusto.toLowerCase().includes(q));
       return okMarca && okQuery;
     });
-  }, [grupos, query, marcaActiva]);
+
+    return [...base].sort((a, b) => {
+      if (orden === "precio_asc") {
+        const pa = a.gustos.find((g) => g.precio > 0)?.precio ?? Infinity;
+        const pb = b.gustos.find((g) => g.precio > 0)?.precio ?? Infinity;
+        return pa - pb;
+      }
+      if (orden === "precio_desc") {
+        const pa = a.gustos.find((g) => g.precio > 0)?.precio ?? 0;
+        const pb = b.gustos.find((g) => g.precio > 0)?.precio ?? 0;
+        return pb - pa;
+      }
+      if (orden === "stock") {
+        const sa = a.gustos.reduce((s, g) => s + (g.stock ?? 0), 0);
+        const sb = b.gustos.reduce((s, g) => s + (g.stock ?? 0), 0);
+        return sb - sa;
+      }
+      return a.modelo.localeCompare(b.modelo); // nombre
+    });
+  }, [grupos, query, marcaActiva, orden]);
 
   const handleAgregar = (modelo, gusto, precio, gusto_id) => {
     agregar(modelo, gusto, precio, gusto_id);
@@ -176,6 +196,28 @@ export default function CatalogoCentral() {
             </motion.nav>
           )}
         </AnimatePresence>
+
+        {/* ── Ordenar ───────────────────────────────── */}
+        {!loading && filtered.length > 1 && (
+          <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 12 }}>
+            <select
+              value={orden}
+              onChange={(e) => setOrden(e.target.value)}
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid var(--line)",
+                color: "var(--mut)",
+                borderRadius: 8, padding: "6px 12px",
+                fontSize: "12px", cursor: "pointer", outline: "none",
+              }}
+            >
+              <option value="nombre">Nombre A-Z</option>
+              <option value="precio_asc">Precio: menor → mayor</option>
+              <option value="precio_desc">Precio: mayor → menor</option>
+              <option value="stock">Más stock</option>
+            </select>
+          </div>
+        )}
 
         {/* ── Error ─────────────────────────────────── */}
         {errorMsg && (

@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ModelImage from "./ModelImage";
 import { getCanonical, getModelDesc, isAccesorioModelo } from "../utils/model";
 
+const GUSTOS_VISIBLES = 5;
+
 function ModelCardPedido({ grupo, cantidadDe, onAgregar, onReducir, enCarrito, index = 0 }) {
   const { modelo, puffs, ml, gustos } = grupo;
+  const [expandido, setExpandido] = useState(false);
 
   const badgeText = puffs
     ? `${puffs.toLocaleString("es-AR")} puffs`
@@ -69,7 +72,7 @@ function ModelCardPedido({ grupo, cantidadDe, onAgregar, onReducir, enCarrito, i
       <div className="flavors-block">
         <p className="flavors-title">Gustos disponibles</p>
         <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 6 }}>
-          {gustos.map((g, gi) => {
+          {(expandido ? gustos : gustos.slice(0, GUSTOS_VISIBLES)).map((g, gi) => {
             const qty      = cantidadDe(modelo, g.gusto);
             const stock    = g.stock ?? 0;
             const maxed    = qty >= stock;
@@ -80,7 +83,11 @@ function ModelCardPedido({ grupo, cantidadDe, onAgregar, onReducir, enCarrito, i
                 key={g.id}
                 initial={{ opacity: 0, x: -6 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.22, delay: Math.min(index * 0.06, 0.42) + gi * 0.03 }}
+                transition={{
+                  duration: 0.18,
+                  // Solo aplicar stagger en el render inicial de la card, no al expandir
+                  delay: expandido ? 0 : Math.min(index * 0.06, 0.42) + gi * 0.03,
+                }}
               >
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
 
@@ -159,6 +166,38 @@ function ModelCardPedido({ grupo, cantidadDe, onAgregar, onReducir, enCarrito, i
             );
           })}
         </ul>
+
+        {/* Expandir / colapsar */}
+        {gustos.length > GUSTOS_VISIBLES && (
+          <button
+            onClick={() => setExpandido((v) => !v)}
+            style={{
+              marginTop: 8,
+              background: "none",
+              border: "1px solid rgba(255,255,255,0.1)",
+              borderRadius: 8,
+              color: "var(--mut)",
+              fontSize: "12px",
+              fontWeight: 600,
+              padding: "6px 14px",
+              cursor: "pointer",
+              width: "100%",
+              transition: "border-color 0.15s, color 0.15s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)";
+              e.currentTarget.style.color = "var(--ink)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
+              e.currentTarget.style.color = "var(--mut)";
+            }}
+          >
+            {expandido
+              ? "▲ Ver menos"
+              : `▼ Ver ${gustos.length - GUSTOS_VISIBLES} gustos más`}
+          </button>
+        )}
       </div>
     </motion.article>
   );

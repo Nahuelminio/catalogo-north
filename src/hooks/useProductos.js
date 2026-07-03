@@ -7,28 +7,40 @@ export default function useProductos(sucursalId) {
   const [loading,   setLoading]   = useState(false);
   const [errorMsg,  setErrorMsg]  = useState("");
 
-  useEffect(() => {
-    if (!sucursalId) return;
-
-    const controller = new AbortController();
-    setErrorMsg("");
-    setProductos([]);
-    setLoading(true);
-
-    api
+  const fetchData = (sucursalId, signal, isRefresh = false) => {
+    if (!isRefresh) setLoading(true);
+    return api
       .get("/public/productos", {
         params: { sucursal_id: sucursalId, inStock: 1 },
-        signal: controller.signal,
+        signal,
       })
       .then((r) => setProductos(Array.isArray(r.data) ? r.data : []))
       .catch((err) => {
         if (err.code !== "ERR_CANCELED" && err.name !== "CanceledError")
           setErrorMsg(err.message || "No se pudo cargar el catálogo.");
       })
-      .finally(() => setLoading(false));
+      .finally(() => { if (!isRefresh) setLoading(false); });
+  };
 
-    return () => controller.abort();
-  }, [sucursalId]);
+  useEffect(() => {
+    if (!sucursalId) return;
+
+    const controller = new AbortController();
+    setErrorMsg("");
+    setProductos([]);
+    fetchData(sucursalId, controller.signal);
+
+    // Auto-refresh silencioso cada 3 minutos
+    const interval = setInterval(() => {
+      const ctrl = new AbortController();
+      fetchData(sucursalId, ctrl.signal, true);
+    }, 3 * 60 * 1000);
+
+    return () => {
+      controller.abort();
+      clearInterval(interval);
+    };
+  }, [sucursalId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const grupos = useMemo(() => {
     const map = new Map();
