@@ -86,9 +86,9 @@ export default function CarritoCentral({ items, totalItems, totalPesos, onCambia
 
   const construirLineas = () =>
     items.map((i) => {
-      const qty    = i.qty > 1 ? ` x${i.qty}` : "";
+      const cant   = i.qty > 1 ? `${i.qty}× ` : "";
       const precio = i.precio ? ` — ${fmtPesos(i.precio * i.qty)}` : "";
-      return `• ${i.modelo} - ${i.gusto}${qty}${precio}`;
+      return `• ${cant}${i.modelo} - ${i.gusto}${precio}`;
     }).join("\n");
 
   const confirmarEnvio = async () => {
