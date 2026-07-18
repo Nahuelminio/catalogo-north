@@ -130,21 +130,22 @@ export default function CarritoCentral({ items, totalItems, totalPesos, onCambia
       if (data.id) pedidoId = data.id;
     } catch { /* no bloqueamos */ }
 
-    // 2. Armar mensaje
+    // 2. Armar mensaje (sin emojis — más limpio y compatible)
     const lineas     = construirLineas();
     const saludo     = cliente.nombre?.trim() ? `Hola! Soy ${cliente.nombre.trim()}.` : "Hola!";
     const totalLinea = totalPesos > 0 ? `\n\n*Total: ${fmtPesos(totalPesos)}*` : "";
     const pagoLinea  = metodoPago
-      ? `\n\n💳 Pago: ${metodoPago === "transferencia" ? "Transferencia" : "Efectivo"}`
+      ? `\n\nForma de pago: ${metodoPago === "transferencia" ? "Transferencia" : "Efectivo"}`
       : "";
     const envioLinea = envio
-      ? `\n🚚 Con envío${direccion ? `\n📍 ${direccion}` : ""}` +
-        (referencia ? `\n(${referencia})` : "") +
-        (ubic ? `\n${ubic}` : "") +
-        `\n_(me confirman el costo del envío)_`
-      : "\n🏬 Sin envío (retiro / coordino por acá)";
-    const pedidoRef  = pedidoId ? `\n\n_(Pedido #${pedidoId})_` : "";
-    const msg = `${saludo} Quiero hacer el siguiente pedido:\n\n${lineas}${totalLinea}${pagoLinea}${envioLinea}${pedidoRef}\n\n¿Pueden confirmar disponibilidad? 🙏`;
+      ? `\nEnvío: SÍ` +
+        (direccion  ? `\nDirección: ${direccion}` : "") +
+        (referencia ? `\nReferencia: ${referencia}` : "") +
+        (ubic       ? `\nUbicación: ${ubic}` : "") +
+        `\n(quedo a la espera del costo del envío)`
+      : `\nEnvío: no, retiro / coordino por acá`;
+    const pedidoRef  = pedidoId ? `\n\nN° de pedido: ${pedidoId}` : "";
+    const msg = `${saludo} Quiero hacer el siguiente pedido:\n\n${lineas}${totalLinea}${pagoLinea}${envioLinea}${pedidoRef}\n\n¿Me confirman disponibilidad? ¡Gracias!`;
 
     window.open(
       `https://wa.me/${WA_CENTRAL}?text=${encodeURIComponent(msg)}`,
