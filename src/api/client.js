@@ -13,6 +13,8 @@ export const api = axios.create({
 api.interceptors.response.use(
   (res) => res,
   (err) => {
+    // Dejar pasar errores de abort sin envolver para que los hooks puedan filtrarlos
+    if (axios.isCancel(err) || err.code === "ERR_CANCELED") return Promise.reject(err);
     const message =
       err.response?.data?.message ||
       err.message ||

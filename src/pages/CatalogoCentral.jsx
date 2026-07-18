@@ -263,6 +263,24 @@ export default function CatalogoCentral() {
 
       </div>
 
+      {/* ── Pill total sobre el FAB ─────────────────── */}
+      <AnimatePresence>
+        {totalPesos > 0 && (
+          <motion.div
+            key="fab-total"
+            className="central-fab-total"
+            initial={{ opacity: 0, y: 8, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 320, damping: 24 }}
+          >
+            <motion.span key={totalPesos} initial={{ scale: 1.15 }} animate={{ scale: 1 }}>
+              $ {Number(totalPesos).toLocaleString("es-AR")}
+            </motion.span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* ── FAB carrito ──────────────────────────────── */}
       <motion.button
         className="central-fab"

@@ -151,6 +151,25 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
+/* Pill de total flotante sobre el FAB */
+.central-fab-total {
+  position: fixed;
+  bottom: calc(94px + var(--safe-bottom, 0px));
+  right: 24px;
+  z-index: 100;
+  background: rgba(10, 10, 11, 0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 7px 13px;
+  border-radius: 20px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
 /* ── Card "en carrito" highlight ─────────────────── */
 .card-en-carrito {
   border-color: rgba(239,68,68,0.4) !important;
