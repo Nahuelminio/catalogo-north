@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import "../css/Catalogo.css";
+import "../css/Shishas.css";
 import ToolbarChips from "../components/ToolbarChips";
 import ModelCard from "../components/ModelCard";
 import SkeletonCard from "../components/SkeletonCard";
@@ -143,6 +145,16 @@ export default function Catalogo() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* La carta del bar vive en su propia página, para poder pegar el QR
+          en las mesas; acá va el acceso desde el catálogo principal. */}
+      <Link to="/shishas" className="sh-banner">
+        <p className="sh-banner-kicker">Fagu Drink Bar</p>
+        <p className="sh-banner-title">Shishas Árabes</p>
+        <p className="sh-banner-sub">
+          Mirá la carta completa de sabores y los precios del armado y la recarga.
+        </p>
+      </Link>
     </main>
   );
 }

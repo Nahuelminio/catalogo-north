@@ -1,0 +1,188 @@
+/* Carta de shishas — sigue la estética del catálogo físico del bar:
+   fondo negro, tipografía en mayúsculas y mucho aire entre secciones. */
+
+.shishas {
+  min-height: 100vh;
+  background: #000;
+  color: #f2f2f2;
+  padding: 32px 0 64px;
+}
+
+.shishas .sh-container {
+  width: min(760px, 92vw);
+  margin: 0 auto;
+}
+
+/* ── Encabezado ── */
+
+.sh-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.sh-logos img {
+  height: 62px;
+  width: auto;
+  object-fit: contain;
+}
+
+.sh-logos .sh-sep {
+  width: 1px;
+  height: 46px;
+  background: #3a3a3a;
+}
+
+.sh-wordmark {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.sh-title {
+  text-align: center;
+  font-size: clamp(1.9rem, 7vw, 3rem);
+  letter-spacing: 0.14em;
+  font-weight: 400;
+  margin: 0 0 40px;
+  text-transform: uppercase;
+}
+
+/* ── Precios ── */
+
+.sh-seccion {
+  font-size: clamp(1.05rem, 3.6vw, 1.35rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 18px;
+}
+
+.sh-precios {
+  margin-bottom: 44px;
+}
+
+.sh-precio-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 0.86rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 7px 0;
+}
+
+.sh-precio-row .sh-label {
+  color: #cfcfcf;
+}
+
+/* Los puntos que unen concepto y precio, como en la carta impresa */
+.sh-precio-row .sh-dots {
+  flex: 1;
+  min-width: 14px;
+  border-bottom: 1px dotted #3a3a3a;
+  transform: translateY(-4px);
+}
+
+.sh-precio-row .sh-monto {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ── Sabores ── */
+
+.sh-linea {
+  margin-bottom: 40px;
+}
+
+.sh-sabor {
+  padding: 14px 0;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.sh-sabor:last-child {
+  border-bottom: none;
+}
+
+.sh-sabor-nombre {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 0 0 6px;
+}
+
+.sh-sabor-nombre .sh-resumen {
+  color: #9a9a9a;
+  font-weight: 400;
+}
+
+.sh-sabor-desc {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: #a8a8a8;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* ── Estados y pie ── */
+
+.sh-msg {
+  text-align: center;
+  color: #8a8a8a;
+  padding: 48px 0;
+}
+
+.sh-nota {
+  text-align: center;
+  color: #6a6a6a;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-top: 1px solid #1a1a1a;
+  padding-top: 24px;
+}
+
+/* ── Bloque de acceso desde el catálogo principal ── */
+
+.sh-banner {
+  display: block;
+  width: min(760px, 92vw);
+  margin: 32px auto 8px;
+  padding: 22px 24px;
+  border: 1px solid #2a2a2a;
+  border-radius: 14px;
+  background: #0b0b0b;
+  color: inherit;
+  text-decoration: none;
+}
+
+.sh-banner:hover {
+  border-color: #4a4a4a;
+}
+
+.sh-banner-kicker {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a8a8a;
+  margin: 0 0 6px;
+}
+
+.sh-banner-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 6px;
+}
+
+.sh-banner-sub {
+  font-size: 0.8rem;
+  color: #9a9a9a;
+  margin: 0;
+}
