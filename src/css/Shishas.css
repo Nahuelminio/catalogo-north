@@ -209,6 +209,22 @@
   max-width: 56ch;
 }
 
+.sh-packs {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 26px;
+  padding-top: 24px;
+  border-top: 1px solid var(--sh-linea);
+}
+
+/* Van por altura y no por ancho: las cajas miden lo mismo en la realidad, así
+   quedan alineadas aunque la foto de cada una tenga unos píxeles de diferencia. */
+.sh-packs img {
+  height: clamp(118px, 38vw, 168px);
+  width: auto;
+}
+
 /* ── Estados y pie ── */
 
 .sh-msg {

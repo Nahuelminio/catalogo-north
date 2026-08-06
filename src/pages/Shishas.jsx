@@ -17,6 +17,14 @@ const IconoWhatsApp = () => (
   </svg>
 );
 
+// Las cajas de los Comics se eligen por el dibujo, así que la foto suma más
+// que la descripción. Mapa por ahora; si crece conviene una columna en la base.
+const PACKS = {
+  "Adalya Mario Brothers": "/img/shishas/pack-mario-brothers.webp",
+  "Adalya Homero": "/img/shishas/pack-homero.webp",
+  "Adalya Majin Boo": "/img/shishas/pack-majin-boo.webp",
+};
+
 const fmt = (n) => `$${Number(n).toLocaleString("es-AR")}`;
 
 // El nombre guardado repite la marca ("Adalya Blue Melon") y el título de la
@@ -111,6 +119,21 @@ export default function Shishas() {
                     )}
                   </article>
                 ))}
+
+                {g.sabores.some((s) => PACKS[s.nombre]) && (
+                  <div className="sh-packs">
+                    {g.sabores
+                      .filter((s) => PACKS[s.nombre])
+                      .map((s) => (
+                        <img
+                          key={s.nombre}
+                          src={PACKS[s.nombre]}
+                          alt={s.nombre}
+                          loading="lazy"
+                        />
+                      ))}
+                  </div>
+                )}
               </section>
             ))}
 
