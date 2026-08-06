@@ -19,10 +19,12 @@ const IconoWhatsApp = () => (
 
 // Las cajas de los Comics se eligen por el dibujo, así que la foto suma más
 // que la descripción. Mapa por ahora; si crece conviene una columna en la base.
+// El halo es el color dominante de cada caja. Sobre el negro hace que la foto
+// se funda con la pagina en vez de parecer un recorte apoyado encima.
 const PACKS = {
-  "Adalya Mario Brothers": "/img/shishas/pack-mario-brothers.webp",
-  "Adalya Homero": "/img/shishas/pack-homero.webp",
-  "Adalya Majin Boo": "/img/shishas/pack-majin-boo.webp",
+  "Adalya Mario Brothers": { src: "/img/shishas/pack-mario-brothers.webp", halo: "#4f9be8" },
+  "Adalya Homero":         { src: "/img/shishas/pack-homero.webp",         halo: "#e86fa0" },
+  "Adalya Majin Boo":      { src: "/img/shishas/pack-majin-boo.webp",      halo: "#5bb8e0" },
 };
 
 const fmt = (n) => `$${Number(n).toLocaleString("es-AR")}`;
@@ -123,35 +125,42 @@ export default function Shishas() {
                 <h2 className="sh-seccion">{g.linea}</h2>
 
                 {g.sabores.map((s) => (
-                  <article className="sh-sabor" key={s.nombre}>
-                    <div className="sh-sabor-head">
-                      <h3 className="sh-sabor-nombre">
-                        {sinLinea(s.nombre, g.linea)}
-                      </h3>
-                      {s.resumen && (
-                        <span className="sh-sabor-resumen">{s.resumen}</span>
-                      )}
-                    </div>
-                    {s.descripcion && (
-                      <p className="sh-sabor-desc">{s.descripcion}</p>
-                    )}
-                  </article>
-                ))}
-
-                {g.sabores.some((s) => PACKS[s.nombre]) && (
-                  <div className="sh-packs">
-                    {g.sabores
-                      .filter((s) => PACKS[s.nombre])
-                      .map((s) => (
+                  <article
+                    className={`sh-sabor${PACKS[s.nombre] ? " sh-sabor-conpack" : ""}`}
+                    key={s.nombre}
+                  >
+                    {/* La caja al lado de su sabor y no en una fila aparte:
+                        asi no hay que adivinar cual corresponde a cual. */}
+                    {PACKS[s.nombre] && (
+                      <div
+                        className="sh-pack-caja"
+                        style={{ "--halo": PACKS[s.nombre].halo }}
+                      >
                         <img
-                          key={s.nombre}
-                          src={PACKS[s.nombre]}
-                          alt={s.nombre}
+                          className="sh-sabor-pack"
+                          src={PACKS[s.nombre].src}
+                          alt=""
+                          aria-hidden="true"
                           loading="lazy"
                         />
-                      ))}
-                  </div>
-                )}
+                      </div>
+                    )}
+
+                    <div className="sh-sabor-texto">
+                      <div className="sh-sabor-head">
+                        <h3 className="sh-sabor-nombre">
+                          {sinLinea(s.nombre, g.linea)}
+                        </h3>
+                        {s.resumen && (
+                          <span className="sh-sabor-resumen">{s.resumen}</span>
+                        )}
+                      </div>
+                      {s.descripcion && (
+                        <p className="sh-sabor-desc">{s.descripcion}</p>
+                      )}
+                    </div>
+                  </article>
+                ))}
               </section>
             ))}
 

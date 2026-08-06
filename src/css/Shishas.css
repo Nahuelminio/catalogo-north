@@ -238,20 +238,51 @@
   max-width: 56ch;
 }
 
-.sh-packs {
+.sh-sabor-conpack {
   display: flex;
-  justify-content: center;
-  gap: 18px;
-  margin-top: 26px;
-  padding-top: 24px;
-  border-top: 1px solid var(--sh-linea);
+  align-items: flex-start;
+  gap: 16px;
 }
 
-/* Van por altura y no por ancho: las cajas miden lo mismo en la realidad, así
-   quedan alineadas aunque la foto de cada una tenga unos píxeles de diferencia. */
-.sh-packs img {
-  height: clamp(118px, 38vw, 168px);
+.sh-sabor-conpack .sh-sabor-texto {
+  min-width: 0;
+  flex: 1;
+}
+
+/* La foto le quita ancho a la fila: acá la etiqueta baja de renglón antes que
+   recortar el nombre del sabor, que es peor. */
+.sh-sabor-conpack .sh-sabor-head {
+  flex-wrap: wrap;
+}
+
+.sh-sabor-conpack .sh-sabor-nombre {
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* Por altura y no por ancho: las cajas miden lo mismo en la realidad, así
+   quedan parejas aunque cada foto tenga unos píxeles de diferencia. */
+.sh-pack-caja {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+}
+
+.sh-pack-caja::before {
+  content: "";
+  position: absolute;
+  inset: -28% -48%;
+  background: radial-gradient(ellipse at 50% 45%, var(--halo) 0%, transparent 72%);
+  opacity: 0.6;
+  filter: blur(18px);
+  pointer-events: none;
+}
+
+.sh-sabor-pack {
+  position: relative;
+  height: clamp(96px, 27vw, 124px);
   width: auto;
+  border-radius: 3px;
 }
 
 /* ── Estados y pie ── */
