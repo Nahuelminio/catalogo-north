@@ -31,7 +31,7 @@ function getModelImg(modelo = "") {
     .replace(/[̀-ͯ]/g, "")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
-  return `/img/modelos/${slug}.png`;
+  return `/img/modelos/${slug}.webp`;
 }
 
 export default function CarritoCentral({ items, totalItems, totalPesos, onCambiar, onQuitar, onVaciar, onCerrar }) {

@@ -3,7 +3,7 @@ import "../css/ModelImage.css";
 
 /* Mapeo manual (si algún modelo no coincide con el slug) */
 const MODEL_IMAGES = {
-  "EBCREATE BC PRO - 40.000 puffs": "/img/modelos/ebcreate-bc-pro.png",
+  "EBCREATE BC PRO - 40.000 puffs": "/img/modelos/ebcreate-bc-pro.webp",
 };
 
 function slugifyModel(name = "") {
@@ -18,7 +18,7 @@ function slugifyModel(name = "") {
 function getModelImage(modelo) {
   if (MODEL_IMAGES[modelo]) return MODEL_IMAGES[modelo];
   const slug = slugifyModel(modelo);
-  return `/img/modelos/${slug}.png`;
+  return `/img/modelos/${slug}.webp`;
 }
 
 export default function ModelImage({ modelo }) {
