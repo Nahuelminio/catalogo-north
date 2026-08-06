@@ -9,9 +9,38 @@
   background: radial-gradient(120% 60% at 50% 0%, #131313 0%, #000 60%);
   color: #f2f2f2;
   padding: 36px 0 72px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.sh-portada {
+  position: absolute;
+  inset: 0 0 auto;
+  height: min(62vh, 520px);
+  overflow: hidden;
+  z-index: 0;
+}
+
+.sh-portada video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 38%;
+  display: block;
+  filter: brightness(0.6) saturate(0.75);
+}
+
+/* Se funde con el negro para que el contenido siga sin corte */
+.sh-portada::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.35) 35%, rgba(0,0,0,.9) 78%, #000 100%);
 }
 
 .shishas .sh-container {
+  position: relative;
+  z-index: 1;
   width: min(680px, 90vw);
   margin: 0 auto;
 }
@@ -308,6 +337,15 @@
 
 .sh-pie-link:hover {
   color: var(--sh-accent);
+}
+
+.sh-legal {
+  margin: 22px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--sh-linea);
+  color: #7a7a7a;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
 }
 
 /* ── Bloque de acceso desde el catálogo principal ──

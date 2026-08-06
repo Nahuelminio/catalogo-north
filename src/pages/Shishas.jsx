@@ -48,6 +48,24 @@ export default function Shishas() {
 
   return (
     <main className="shishas">
+      {/* Foto del local detras del encabezado: da clima sin robarle
+          protagonismo a los precios, que es a lo que se entra. */}
+      <div className="sh-portada" aria-hidden="true">
+        {/* El poster se ve al instante; el video llega despues y no demora la
+            carta. Si el navegador no lo reproduce, queda la foto. */}
+        <video
+          poster="/img/shishas/portada.webp"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+        >
+          <source src="/img/shishas/portada.webm" type="video/webm" />
+          <source src="/img/shishas/portada.mp4" type="video/mp4" />
+        </video>
+      </div>
+
       <div className="sh-container">
         <div className="sh-logos">
           {sinLogoFagu ? (
@@ -168,6 +186,10 @@ export default function Shishas() {
               <Link className="sh-pie-link" to="/">
                 Ver también el catálogo de vapes →
               </Link>
+
+              <p className="sh-legal">
+                Productos para mayores de 21 años. Contienen nicotina.
+              </p>
             </footer>
           </>
         )}
