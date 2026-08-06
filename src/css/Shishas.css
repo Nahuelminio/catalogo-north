@@ -236,40 +236,51 @@
 
 .sh-pie-acciones {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
+/* Pastillas del mismo peso, con ícono: el botón lleno partía el texto en dos
+   líneas y pesaba mucho más que el otro. */
 .sh-btn {
-  flex: 1 1 180px;
-  max-width: 260px;
-  padding: 13px 18px;
-  border-radius: 10px;
-  border: 1px solid #2a2a2a;
-  color: #e8e8e8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 11px 22px;
+  border-radius: 999px;
+  border: 1px solid #2e2e2e;
+  color: #d8d8d8;
   text-decoration: none;
-  font-size: 0.82rem;
-  letter-spacing: 0.06em;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  transition: border-color 0.2s, background 0.2s;
+  white-space: nowrap;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
 }
 
 .sh-btn:hover {
-  border-color: var(--sh-accent);
+  border-color: #555;
+  color: #fff;
+}
+
+.sh-btn-icono {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
 }
 
 .sh-btn-primario {
-  background: var(--sh-accent);
-  border-color: var(--sh-accent);
-  color: #1a1400;
-  font-weight: 700;
+  border-color: rgba(201, 162, 39, 0.5);
+  color: var(--sh-accent);
 }
 
 .sh-btn-primario:hover {
-  background: #d9b13a;
-  color: #1a1400;
+  background: rgba(201, 162, 39, 0.1);
+  border-color: var(--sh-accent);
+  color: var(--sh-accent);
 }
 
 .sh-pie-link {
