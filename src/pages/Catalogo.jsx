@@ -149,11 +149,14 @@ export default function Catalogo() {
       {/* La carta del bar vive en su propia página, para poder pegar el QR
           en las mesas; acá va el acceso desde el catálogo principal. */}
       <Link to="/shishas" className="sh-banner">
-        <p className="sh-banner-kicker">Fagu Drink Bar</p>
-        <p className="sh-banner-title">Shishas Árabes</p>
-        <p className="sh-banner-sub">
-          Mirá la carta completa de sabores y los precios del armado y la recarga.
-        </p>
+        <img src="/img/logo/logoFagu.png" alt="" aria-hidden="true" />
+        <div>
+          <p className="sh-banner-kicker">Fagu Drink Bar</p>
+          <p className="sh-banner-title">Shishas Árabes</p>
+          <p className="sh-banner-sub">
+            Mirá la carta de sabores y los precios del armado y la recarga.
+          </p>
+        </div>
       </Link>
     </main>
   );
