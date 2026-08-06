@@ -7,7 +7,6 @@ const Catalogo        = lazy(() => import("../pages/Catalogo"));
 const CatalogoCentral = lazy(() => import("../pages/CatalogoCentral"));
 const Ayuda           = lazy(() => import("../pages/Ayuda"));
 const Contacto        = lazy(() => import("../pages/Contacto"));
-const CatalogoBrook   = lazy(() => import("../pages/CatalogoBrook"));
 const ModelDetalle    = lazy(() => import("../pages/ModelDetalle"));
 const Shishas         = lazy(() => import("../pages/Shishas"));
 const Linktree        = lazy(() => import("../components/Linktree/Linktree"));
@@ -26,7 +25,6 @@ export default function AppRoutes() {
         </Route>
 
         <Route element={<LayoutSinHeader />}>
-          <Route path="/CatalogoBrook" element={<CatalogoBrook />} />
           <Route path="/central"       element={<CatalogoCentral />} />
           <Route path="/shishas"       element={<Shishas />} />
           <Route path="/linktree"      element={<Linktree />} />

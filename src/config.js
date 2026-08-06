@@ -25,6 +25,3 @@ export const SUCURSAL_WA_LINKS = {
   "11": "https://wa.me/5493764357807",  // Garupa
 };
 
-// IDs de sucursales Brooklyn (usados en CatalogoBrook)
-export const IDS_BROOKLYN = [8, 9];
-export const DEFAULT_BROOKLYN_ID = 8;
