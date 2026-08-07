@@ -1,0 +1,129 @@
+/* Catálogo de evento — sigue la hoja impresa que se deja en las fiestas:
+   fondo negro, grilla de modelos con foto, puffs y precio. */
+
+.evento {
+  min-height: 100vh;
+  background: #000;
+  color: #f2f2f2;
+  padding: 30px 0 56px;
+}
+
+.ev-container {
+  width: min(900px, 92vw);
+  margin: 0 auto;
+}
+
+/* ── Encabezado ── */
+
+.ev-header {
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+.ev-header img {
+  height: clamp(64px, 18vw, 86px);
+  width: auto;
+  margin-bottom: 14px;
+}
+
+.ev-header h1 {
+  font-size: clamp(1.4rem, 6vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.ev-sub {
+  color: #8a8a8a;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 8px 0 0;
+}
+
+/* ── Grilla ── */
+
+.ev-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px 16px;
+}
+
+.ev-card {
+  text-align: center;
+  min-width: 0;
+}
+
+.ev-foto {
+  height: clamp(96px, 26vw, 150px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.ev-foto img,
+.ev-foto .model-media {
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+  object-fit: contain;
+}
+
+.ev-modelo {
+  font-size: clamp(0.72rem, 2.6vw, 0.86rem);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+.ev-puffs {
+  font-size: clamp(0.62rem, 2.2vw, 0.74rem);
+  color: #8a8a8a;
+  margin: 0 0 6px;
+}
+
+.ev-precio {
+  font-size: clamp(0.86rem, 3.2vw, 1.05rem);
+  font-weight: 700;
+  margin: 0;
+}
+
+.ev-gustos {
+  font-size: clamp(0.58rem, 2vw, 0.68rem);
+  color: #6f6f6f;
+  margin: 6px 0 0;
+  line-height: 1.45;
+}
+
+/* ── Estados y pie ── */
+
+.ev-msg {
+  text-align: center;
+  color: #8a8a8a;
+  padding: 60px 0;
+}
+
+.ev-pie {
+  margin-top: 44px;
+  padding-top: 22px;
+  border-top: 1px solid #1a1a1a;
+  text-align: center;
+}
+
+.ev-legal {
+  color: #6f6f6f;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+@media (max-width: 560px) {
+  .ev-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 14px;
+  }
+}
