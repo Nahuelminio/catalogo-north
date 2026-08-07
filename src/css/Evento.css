@@ -3,13 +3,13 @@
 
 .evento {
   min-height: 100vh;
-  background: #000;
+  background: radial-gradient(120% 55% at 50% 0%, #121212 0%, #000 55%);
   color: #f2f2f2;
-  padding: 30px 0 56px;
+  padding: 26px 0 52px;
 }
 
 .ev-container {
-  width: min(900px, 92vw);
+  width: min(920px, 92vw);
   margin: 0 auto;
 }
 
@@ -17,27 +17,66 @@
 
 .ev-header {
   text-align: center;
-  margin-bottom: 34px;
+  margin-bottom: 30px;
 }
 
-.ev-header img {
-  height: clamp(64px, 18vw, 86px);
+/* Cuando son dos fiestas juntas hay dos logos, así que van en su propia fila
+   con la cruz de colaboración en el medio, y el nuestro debajo. Todo en una
+   sola línea se partía solo y dejaba el separador colgando. */
+.ev-presentan {
+  margin-bottom: 24px;
+}
+
+/* Explica por qué hay dos logos: sin esto parecen dos marcas sueltas */
+.ev-kicker {
+  color: #6a6a6a;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  margin: 0 0 14px;
+}
+
+.ev-logos-fiesta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+}
+
+.ev-logo-fiesta {
+  height: clamp(66px, 20vw, 92px);
   width: auto;
-  margin-bottom: 14px;
+  max-width: 40vw;
+  object-fit: contain;
+}
+
+.ev-sep {
+  width: 1px;
+  height: 52px;
+  background: #2a2a2a;
+  flex-shrink: 0;
+}
+
+.ev-logo-north {
+  height: clamp(94px, 27vw, 124px);
+  width: auto;
+  margin: 0 auto 18px;
+  object-fit: contain;
 }
 
 .ev-header h1 {
-  font-size: clamp(1.4rem, 6vw, 2.1rem);
+  font-size: clamp(1.35rem, 5.6vw, 2rem);
   font-weight: 800;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   margin: 0;
 }
 
 .ev-sub {
   color: #8a8a8a;
-  font-size: 0.82rem;
-  letter-spacing: 0.06em;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   margin: 8px 0 0;
 }
@@ -46,57 +85,178 @@
 
 .ev-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 26px 16px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+}
+
+/* Con uno o dos productos la grilla no se estira a todo el ancho: quedarían
+   dos tarjetas gigantes y desbalanceadas. */
+.ev-grid.ev-pocos {
+  grid-template-columns: repeat(auto-fit, 200px);
+  justify-content: center;
 }
 
 .ev-card {
-  text-align: center;
-  min-width: 0;
-}
-
-.ev-foto {
-  height: clamp(96px, 26vw, 150px);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 12px;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid #1a1a1a;
+  border-radius: 12px;
+  background: #080808;
+  overflow: hidden;
 }
 
-.ev-foto img,
+/* Degradado suave para despegar el producto del fondo negro */
+.ev-media {
+  position: relative;
+  background: linear-gradient(180deg, #131313, #080808);
+}
+
+/* La foto usa el mismo componente que el catálogo, que la amplía dentro de una
+   caja propia. Acá se neutraliza para que entre en la tarjeta. */
+.ev-foto {
+  height: clamp(128px, 34vw, 158px);
+  /* Aire alrededor: arriba más, para que el producto no quede debajo de la
+     etiqueta de puffs. */
+  padding: 32px 16px 2px;
+  box-sizing: border-box;
+}
+
 .ev-foto .model-media {
-  max-height: 100%;
-  max-width: 100%;
-  width: auto;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  border: none;
+  background: none;
+  border-radius: 0;
 }
 
-.ev-modelo {
-  font-size: clamp(0.72rem, 2.6vw, 0.86rem);
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  margin: 0 0 4px;
-  line-height: 1.3;
+/* Los archivos ya vienen reencuadrados para que el producto ocupe siempre lo
+   mismo, así que no hace falta ampliarlos acá. */
+.ev-foto .model-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: none;
 }
 
 .ev-puffs {
-  font-size: clamp(0.62rem, 2.2vw, 0.74rem);
-  color: #8a8a8a;
-  margin: 0 0 6px;
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9a9a9a;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid #242424;
+  border-radius: 999px;
+  padding: 4px 7px;
+  white-space: nowrap;
+}
+
+.ev-datos {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  text-align: center;
+  padding: 4px 10px 14px;
+}
+
+.ev-modelo {
+  font-size: clamp(0.7rem, 2.5vw, 0.8rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 1.3;
+  color: #fff;
 }
 
 .ev-precio {
-  font-size: clamp(0.86rem, 3.2vw, 1.05rem);
+  font-size: clamp(1rem, 3.6vw, 1.2rem);
   font-weight: 700;
-  margin: 0;
+  letter-spacing: -0.01em;
+  margin: 8px 0 0;
 }
 
 .ev-gustos {
-  font-size: clamp(0.58rem, 2vw, 0.68rem);
-  color: #6f6f6f;
-  margin: 6px 0 0;
-  line-height: 1.45;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  /* Al pie, para que los precios queden a la misma altura entre tarjetas */
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+.ev-gusto {
+  font-size: 0.58rem;
+  color: #8f8f8f;
+  border: 1px solid #202020;
+  border-radius: 999px;
+  padding: 4px 8px;
+  line-height: 1;
+}
+
+.ev-nota {
+  margin: 26px auto 0;
+  max-width: 46ch;
+  padding: 13px 16px;
+  border: 1px solid #202020;
+  border-radius: 10px;
+  background: #0a0a0a;
+  color: #9a9a9a;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  text-align: center;
+}
+
+.ev-vacio,
+.ev-elegir {
+  text-align: center;
+  padding: 40px 0 20px;
+}
+
+.ev-vacio-titulo {
+  color: #e8e8e8;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.ev-vacio-texto {
+  color: #8a8a8a;
+  font-size: 0.85rem;
+  margin: 0 0 20px;
+}
+
+.ev-vacio-link {
+  color: var(--accent, #ef4444);
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.ev-opcion {
+  display: block;
+  max-width: 340px;
+  margin: 0 auto 10px;
+  padding: 14px 18px;
+  border: 1px solid #202020;
+  border-radius: 12px;
+  background: #0a0a0a;
+  color: #f1f1f1;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.ev-opcion small {
+  display: block;
+  color: #8a8a8a;
+  font-weight: 400;
+  font-size: 0.78rem;
+  margin-top: 3px;
 }
 
 /* ── Estados y pie ── */
@@ -108,22 +268,23 @@
 }
 
 .ev-pie {
-  margin-top: 44px;
-  padding-top: 22px;
-  border-top: 1px solid #1a1a1a;
+  margin-top: 38px;
+  padding-top: 20px;
+  border-top: 1px solid #171717;
   text-align: center;
+}
+
+.ev-logo-pie {
+  height: clamp(56px, 16vw, 72px);
+  width: auto;
+  margin: 0 auto 16px;
+  object-fit: contain;
+  opacity: 0.9;
 }
 
 .ev-legal {
   color: #6f6f6f;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   letter-spacing: 0.04em;
   margin: 0;
-}
-
-@media (max-width: 560px) {
-  .ev-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px 14px;
-  }
 }

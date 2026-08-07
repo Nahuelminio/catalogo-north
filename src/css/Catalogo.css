@@ -16,8 +16,10 @@
   --accent-2:   #b91c1c;
   --radius:     16px;
   --media-col:  clamp(140px, 28vw, 220px);
-  --img-zoom:       1.45;
-  --img-zoom-hover: 1.35;
+  /* Las fotos vienen reencuadradas con el producto al 86% del lienzo, así que
+     ya no necesitan ampliarse para verse grandes. */
+  --img-zoom:       1;
+  --img-zoom-hover: 1.06;
 
   /* espaciado seguro para notch / home bar */
   --safe-bottom: env(safe-area-inset-bottom, 0px);

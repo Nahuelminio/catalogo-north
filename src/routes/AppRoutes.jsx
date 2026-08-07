@@ -29,6 +29,8 @@ export default function AppRoutes() {
           <Route path="/central"       element={<CatalogoCentral />} />
           <Route path="/shishas"       element={<Shishas />} />
           <Route path="/evento/:slug"  element={<Evento />} />
+          {/* Link fijo del QR impreso: resuelve solo el evento del día */}
+          <Route path="/fiesta"        element={<Evento />} />
           <Route path="/linktree"      element={<Linktree />} />
         </Route>
       </Routes>

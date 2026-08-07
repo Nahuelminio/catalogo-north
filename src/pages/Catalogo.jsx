@@ -7,6 +7,7 @@ import ToolbarChips from "../components/ToolbarChips";
 import ModelCard from "../components/ModelCard";
 import SkeletonCard from "../components/SkeletonCard";
 import SearchBar from "../components/SearchBar";
+import AvisoEventos from "../components/AvisoEventos";
 import ProgressBar from "../components/ProgressBar";
 import useSucursales from "../hooks/useSucursales";
 import useProductos from "../hooks/useProductos";
@@ -63,6 +64,9 @@ export default function Catalogo() {
         >
           Elegí la sucursal para ver disponibilidad por modelo.
         </motion.p>
+
+        {/* Los días que estamos en una fiesta, arriba de todo */}
+        <AvisoEventos />
 
         <ToolbarChips
           sucursales={sucursales}
