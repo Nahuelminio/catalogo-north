@@ -5,6 +5,7 @@ import { Share2 } from "lucide-react";
 import { api, buildWaUrl } from "../api/client";
 import { SUCURSAL_WA_LINKS } from "../config";
 import ModelImage from "../components/ModelImage";
+import { splitModeloGusto } from "../utils/model";
 import {
   MODEL_DESCRIPTIONS,
   MODEL_ALIASES,
@@ -64,10 +65,13 @@ export default function ModelDetalle() {
           return getCanonical(mdl) === canonical;
         });
 
-        const sabores = items.map((p) => {
-          const parts = String(p.nombre).split(" - ");
-          return { id: p.id, gusto: parts[1]?.trim() || "Sin gusto" };
-        });
+        // El gusto es el último tramo del nombre, no el segundo: en
+        // "Elfbar BC15000 - 15.000 puffs - Sakura grape" el del medio son los
+        // puffs, y así los chips salían todos con el mismo texto.
+        const sabores = items.map((p) => ({
+          id: p.id,
+          gusto: splitModeloGusto(p.nombre).gusto || "Sin gusto",
+        }));
 
         const detectPuffs = () => {
           for (const it of items) {

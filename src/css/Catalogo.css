@@ -173,9 +173,14 @@ main.catalogo {
   grid-area: media;
   overflow: hidden;
   border-radius: calc(var(--radius) - 4px);
-  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0));
-  border: 1px solid var(--line);
-  width: min(260px, 60vw);
+  /* Sin caja alrededor: la mayoría de los pods son altos y finitos, y el
+     recuadro dejaba a la vista el aire de los costados como si la foto
+     estuviera chica. Flotando sobre la tarjeta ese vacío no se lee. */
+  background: none;
+  border: none;
+  /* A 60vw la foto se comía la pantalla del celular y el nombre y los sabores
+     quedaban abajo del pliegue. */
+  width: min(180px, 46vw);
   aspect-ratio: 1 / 1;
   justify-self: center;
 }

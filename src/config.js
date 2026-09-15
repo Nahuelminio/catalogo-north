@@ -21,7 +21,11 @@ export const SUCURSAL_WA_LINKS = {
   "7":  "https://wa.me/5493764202408",  // Central
   "8":  "https://wa.me/5493764202408",  // Brooklyn Barra Patio
   "9":  "https://wa.me/5493764202408",  // Brooklyn Barra Pista
-  "10": "https://wa.me/5493764507998",  // Maluh
+  // Fagu Drink Bar está dentro de Itaembé Guazú y atiende por ese mismo número
+  "10": "https://wa.me/5493764939556",  // Fagu Drink Bar (ex Maluh)
   "11": "https://wa.me/5493764357807",  // Garupa
+  "13": "https://wa.me/5493764653102",  // Zoe Tec
+  "14": "https://wa.me/5493764103171",  // North Punto #9 (Chacabuco 5742)
+  "15": "https://wa.me/5493764637342",  // Matti Segovia Barber
 };
 

@@ -15,10 +15,14 @@ function slugifyModel(name = "") {
     .replace(/(^-|-$)/g, "");
 }
 
+/* El servidor manda las fotos con caché de 7 días y el nombre del archivo no
+   cambia al reemplazarlas, así que quien ya entró seguía viendo las viejas.
+   Subir este número fuerza a que las pidan de nuevo. */
+const VERSION_FOTOS = "2";
+
 function getModelImage(modelo) {
-  if (MODEL_IMAGES[modelo]) return MODEL_IMAGES[modelo];
-  const slug = slugifyModel(modelo);
-  return `/img/modelos/${slug}.webp`;
+  const base = MODEL_IMAGES[modelo] || `/img/modelos/${slugifyModel(modelo)}.webp`;
+  return `${base}?v=${VERSION_FOTOS}`;
 }
 
 export default function ModelImage({ modelo }) {

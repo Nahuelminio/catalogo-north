@@ -5,7 +5,11 @@ import "./linktree.css";
 import FormasPagoModal from "./FormasPagoModal";
 
 // Íconos Lucide
-import { Instagram, Phone, Globe, CreditCard, Store } from "lucide-react";
+import { Instagram, Phone, Globe, CreditCard, Store, ShoppingBag, Flame } from "lucide-react";
+
+// Un solo lugar para los números: si cambia uno, se cambia acá.
+const WA = (numero) => `https://wa.me/${numero}`;
+const WA_PRINCIPAL = "5493764202408";
 
 export default function Linktree() {
   const [openPago, setOpenPago] = useState(false);
@@ -23,36 +27,26 @@ export default function Linktree() {
     },
   ];
 
+  // Los 11 puntos de venta activos, con los nombres que se usan de cara al
+  // cliente (los mismos del linktree de Instagram). Se sacaron Maluh, que
+  // ahora es Fagu Drink Bar, y Brickell, que dejó de operar.
   const sucursales = [
-    {
-      icon: Store,
-      label: "North Santo Tomé",
-      url: "https://bit.ly/TheNorthShop_ST",
-    },
-    {
-      icon: Store,
-      label: "North Itaembe Guazú",
-      url: "https://walink.co/f98f4a",
-    },
-    { icon: Store, label: "North Maluh", url: "https://wa.link/5apw2u" },
-
-    { icon: Store, label: "North Shop", url: "https://wa.link/16jfjm" },
-    { icon: Store, label: "North Santa Ana", url: "https://wa.link/4svy66" },
-    { icon: Store, label: "North Brickell", url: "https://wa.me/5493764298148" },
-    {
-      icon: Store,
-      label: "North Villa Cabello",
-      url: "https://wa.link/x2vdvq",
-    },
-    {
-      icon: Store,
-      label: "North Garupa",
-      url: "https://wa.me/5493764357807",
-    },
+    { icon: Store, label: "Itaembé Guazú",                  url: WA("5493764939556") },
+    { icon: Store, label: "Itaembé Guazú - Fagu Drink Bar", url: WA("5493764939556") },
+    { icon: Store, label: "Santo Tomé",                     url: WA("5493764185019") },
+    { icon: Store, label: "Santa Ana",                      url: WA("5493764170673") },
+    { icon: Store, label: "Garupá",                         url: WA("5493764357807") },
+    { icon: Store, label: "Posadas - Villa Cabello",        url: WA("5493764830712") },
+    { icon: Store, label: "Posadas - Zoe Tec",              url: WA("5493764653102") },
+    { icon: Store, label: "Posadas - Chacabuco 5742",       url: WA("5493764103171") },
+    { icon: Store, label: "Posadas - Centro",               url: WA("5493764202408") },
+    { icon: Store, label: "Posadas - Brown y las Heras",    url: WA("5493764757290") },
+    { icon: Store, label: "Posadas - Matti Segovia Barber", url: WA("5493764637342") },
   ];
 
   const info = [
-    { icon: Globe, label: "Sitio Web", url: "https://thenorthshop.net/" },
+    { icon: ShoppingBag, label: "Catálogo de vapes", url: "https://thenorthshop.net/" },
+    { icon: Flame, label: "Carta de shishas", url: "https://thenorthshop.net/shishas" },
     {
       icon: CreditCard,
       label: "Formas de Pago",
