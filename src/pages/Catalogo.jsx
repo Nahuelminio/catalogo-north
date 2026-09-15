@@ -16,19 +16,27 @@ const SKELETON_COUNT = 4;
 const fadeUp = { initial: { opacity: 0, y: -10 }, animate: { opacity: 1, y: 0 } };
 const fade   = { initial: { opacity: 0 }, animate: { opacity: 1 } };
 
-export default function Catalogo() {
-  useEffect(() => {
-    document.title = "The North Shop — Catálogo de pods";
-  }, []);
-
+/**
+ * @param {string} [fija] Slug o id de sucursal. Viene de /punto/:slug, el link
+ *   del QR de cada punto: muestra solo ese stock y no deja cambiar de sucursal.
+ */
+export default function Catalogo({ fija }) {
   const {
     sucursales,
     sucursalId,
     setSucursalId,
     sucursalName,
     sucursalPhone,
+    noEncontrada,
     error: sucError,
-  } = useSucursales();
+  } = useSucursales(fija);
+
+  useEffect(() => {
+    document.title =
+      fija && sucursalName
+        ? `${sucursalName} — The North Shop`
+        : "The North Shop — Catálogo de pods";
+  }, [fija, sucursalName]);
   const { grupos, loading, errorMsg } = useProductos(sucursalId);
 
   const [query, setQuery] = useState("");
@@ -55,24 +63,36 @@ export default function Catalogo() {
           {...fadeUp}
           transition={{ duration: 0.3, ease: "easeOut" }}
         >
-          Catálogo
+          {fija ? sucursalName || "Catálogo" : "Catálogo"}
         </motion.h1>
         <motion.p
           className="page-sub"
           {...fade}
           transition={{ duration: 0.3, delay: 0.1 }}
         >
-          Elegí la sucursal para ver disponibilidad por modelo.
+          {fija
+            ? "Lo que hay disponible en este punto ahora."
+            : "Elegí la sucursal para ver disponibilidad por modelo."}
         </motion.p>
 
-        {/* Los días que estamos en una fiesta, arriba de todo */}
-        <AvisoEventos />
+        {/* En el link de un punto no se ofrece cambiar de sucursal ni se
+            mandan a otros lados: el QR está pegado en ese local. */}
+        {!fija && (
+          <>
+            {/* Los días que estamos en una fiesta, arriba de todo */}
+            <AvisoEventos />
 
-        <ToolbarChips
-          sucursales={sucursales}
-          sucursalId={sucursalId}
-          onSelect={setSucursalId}
-        />
+            <ToolbarChips
+              sucursales={sucursales}
+              sucursalId={sucursalId}
+              onSelect={setSucursalId}
+            />
+          </>
+        )}
+
+        {noEncontrada && (
+          <p className="msg">Este punto de venta no existe o ya no está activo.</p>
+        )}
 
         {sucursalId && !loading && grupos.length > 0 && (
           <SearchBar value={query} onChange={setQuery} />
@@ -83,7 +103,10 @@ export default function Catalogo() {
         )}
 
         <AnimatePresence mode="wait">
-          {!sucursalId && !loading ? (
+          {!sucursalId && fija ? (
+            // Todavía resolviendo el punto, o no existe (el aviso va arriba)
+            noEncontrada ? null : <SkeletonCard key="resolviendo" />
+          ) : !sucursalId && !loading ? (
             <motion.p
               key="hint"
               className="msg sub"
@@ -152,6 +175,7 @@ export default function Catalogo() {
 
       {/* La carta del bar vive en su propia página, para poder pegar el QR
           en las mesas; acá va el acceso desde el catálogo principal. */}
+      {!fija && (
       <Link to="/shishas" className="sh-banner">
         <img src="/img/logo/logoFagu.png" alt="" aria-hidden="true" />
         <div>
@@ -162,6 +186,7 @@ export default function Catalogo() {
           </p>
         </div>
       </Link>
+      )}
     </main>
   );
 }

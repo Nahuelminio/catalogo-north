@@ -2,11 +2,27 @@ import { useEffect, useMemo, useState } from "react";
 import { api } from "../api/client";
 import { SUCURSAL_WA_LINKS } from "../config";
 
-export default function useSucursales() {
+/** Slug de una sucursal para el link fijo: "Weekend Bebidas" → "weekend-bebidas". */
+export const slugSucursal = (s = "") =>
+  String(s)
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+/**
+ * @param {string} [fija] Slug o id de una sucursal. Si viene, el catálogo queda
+ *   clavado en esa (el link del QR de cada punto) y no se ofrece cambiarla.
+ */
+export default function useSucursales(fija) {
   const [sucursales, setSucursales] = useState([]);
+  // Con sucursal fija no se arranca de la guardada: mostraría por un instante
+  // el stock de otro punto mientras carga la lista.
   const [sucursalId, setSucursalIdState] = useState(
-    localStorage.getItem("sucursalId") || ""
+    fija ? "" : localStorage.getItem("sucursalId") || ""
   );
+  const [noEncontrada, setNoEncontrada] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -15,6 +31,26 @@ export default function useSucursales() {
       .then((r) => {
         const list = Array.isArray(r.data) ? r.data : [];
         setSucursales(list);
+
+        if (fija) {
+          const buscada = slugSucursal(fija);
+          const s = list.find(
+            (x) =>
+              String(x.id) === String(fija) ||
+              [x.nombre_real, x.apodo, x.nombre].some(
+                (n) => n && slugSucursal(n) === buscada
+              )
+          );
+          if (s) {
+            setSucursalIdState(String(s.id));
+            // Se guarda para que el detalle del modelo, si lo recargan, siga
+            // mostrando el stock de este punto
+            localStorage.setItem("sucursalId", String(s.id));
+          } else {
+            setNoEncontrada(true);
+          }
+          return;
+        }
 
         const saved = localStorage.getItem("sucursalId");
         const hasSaved = list.some((x) => String(x.id) === String(saved));
@@ -33,7 +69,7 @@ export default function useSucursales() {
       .catch((err) =>
         setError(err.message || "No se pudieron cargar las sucursales.")
       );
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [fija]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const sucursalName = useMemo(() => {
     const s = sucursales.find((x) => String(x.id) === String(sucursalId));
@@ -55,5 +91,5 @@ export default function useSucursales() {
     localStorage.setItem("sucursalId", String(id));
   };
 
-  return { sucursales, sucursalId, setSucursalId: select, sucursalName, sucursalPhone, error };
+  return { sucursales, sucursalId, setSucursalId: select, sucursalName, sucursalPhone, noEncontrada, error };
 }

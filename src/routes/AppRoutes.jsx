@@ -10,6 +10,7 @@ const Contacto        = lazy(() => import("../pages/Contacto"));
 const ModelDetalle    = lazy(() => import("../pages/ModelDetalle"));
 const Shishas         = lazy(() => import("../pages/Shishas"));
 const Evento          = lazy(() => import("../pages/Evento"));
+const CatalogoPunto   = lazy(() => import("../pages/CatalogoPunto"));
 const Linktree        = lazy(() => import("../components/Linktree/Linktree"));
 const NotFound        = lazy(() => import("../pages/NotFound"));
 
@@ -32,6 +33,8 @@ export default function AppRoutes() {
           {/* Link fijo del QR impreso: resuelve solo el evento del día */}
           <Route path="/fiesta"        element={<Evento />} />
           <Route path="/linktree"      element={<Linktree />} />
+          {/* Link del QR de cada punto de venta: solo el stock de ese local */}
+          <Route path="/punto/:slug"   element={<CatalogoPunto />} />
         </Route>
       </Routes>
     </Suspense>
