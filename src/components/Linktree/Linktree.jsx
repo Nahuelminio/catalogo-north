@@ -27,7 +27,7 @@ export default function Linktree() {
     },
   ];
 
-  // Los 11 puntos de venta activos, con los nombres que se usan de cara al
+  // Los 12 puntos de venta activos, con los nombres que se usan de cara al
   // cliente (los mismos del linktree de Instagram). Se sacaron Maluh, que
   // ahora es Fagu Drink Bar, y Brickell, que dejó de operar.
   const sucursales = [
@@ -42,6 +42,7 @@ export default function Linktree() {
     { icon: Store, label: "Posadas - Centro",               url: WA("5493764202408") },
     { icon: Store, label: "Posadas - Brown y las Heras",    url: WA("5493764757290") },
     { icon: Store, label: "Posadas - Matti Segovia Barber", url: WA("5493764637342") },
+    { icon: Store, label: "Weekend Bebidas",                url: WA("5493764905547") },
   ];
 
   const info = [

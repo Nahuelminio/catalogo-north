@@ -27,5 +27,6 @@ export const SUCURSAL_WA_LINKS = {
   "13": "https://wa.me/5493764653102",  // Zoe Tec
   "14": "https://wa.me/5493764103171",  // North Punto #9 (Chacabuco 5742)
   "15": "https://wa.me/5493764637342",  // Matti Segovia Barber
+  "16": "https://wa.me/5493764905547",  // Weekend Bebidas
 };
 
